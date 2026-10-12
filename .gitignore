@@ -1,0 +1,13 @@
+.lake/
+__pycache__/
+*.o
+verification/c/check7
+verification/cpp/check7
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.blg
+paper/*.bbl
+paper/*.synctex.gz

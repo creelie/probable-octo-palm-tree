@@ -1,0 +1,34 @@
+{
+  "title": "Smooth lattice 3-polytopes with seven facets have the integer decomposition property",
+  "version": "1.0.0",
+  "upload_type": "publication",
+  "publication_type": "preprint",
+  "creators": [
+    {
+      "name": "Bhattacharjee, Deep",
+      "orcid": "0000-0003-0466-750X",
+      "affiliation": "Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India"
+    }
+  ],
+  "description": "<p>A lattice polytope P has the integer decomposition property if, for every positive integer k, every lattice point of kP is a sum of k lattice points of P. Oda conjectured that every smooth lattice polytope has this property. We prove the conjecture for smooth lattice polytopes of dimension three with seven facets. Together with the known case of at most six facets, every smooth lattice 3-polytope with at most seven facets has the integer decomposition property. The proof combines three criteria on the normal fan, based on slicing and projection, with the classification of smooth projective toric threefolds of Picard number four; the finitely many certificates are checked in Lean 4.</p><p>The archive contains the paper (PDF, LaTeX source in the style of The Electronic Journal of Combinatorics, arXiv tarball), the certificates of the 625 families of fans, independent checkers in C, C++, Julia and Python, and a Lean 4 project with Mathlib in which the kernel checks every certificate for every value of the parameters (no native_decide; axioms propext, Classical.choice and Quot.sound only). The reduction, the three criteria and the classification are proved by hand in the paper.</p>",
+  "keywords": [
+    "Oda's conjecture",
+    "integer decomposition property",
+    "smooth lattice polytope",
+    "toric variety",
+    "projective normality",
+    "Lean 4",
+    "52B20",
+    "14M25"
+  ],
+  "license": "MIT",
+  "language": "eng",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/creelie/probable-octo-palm-tree",
+      "relation": "isSupplementedBy",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "Corresponding author: d.bhattacharjee@erl-forschung.de; also itsdeep@live.com."
+}
