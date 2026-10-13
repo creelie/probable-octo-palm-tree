@@ -1,0 +1,393 @@
+\documentclass[12pt]{article}
+\usepackage[amsmath]{e-jc}
+
+\dateline{TBD}{TBD}{TBD}
+\MSC{52B20, 14M25}
+\Copyright{The author. Released under the CC BY license (International 4.0).}
+
+\title{Smooth lattice 3-polytopes with seven facets\\ have the integer decomposition property}
+
+\author{Deep Bhattacharjee}
+\authortext{}{Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
+(\email{d.bhattacharjee@erl-forschung.de}, \email{itsdeep@live.com}). ORCID 0000-0003-0466-750X.}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\GL}{\mathrm{GL}}
+\newcommand{\cone}{\operatorname{cone}}
+\newcommand{\relint}{\operatorname{relint}}
+\newcommand{\inn}[2]{\langle #1,#2\rangle}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+A lattice polytope $P$ has the integer decomposition property if, for every positive integer $k$, every lattice point of $kP$ is a sum of $k$ lattice points of $P$. Oda conjectured that every smooth lattice polytope has this property. We prove the conjecture for smooth lattice polytopes of dimension three with seven facets. Together with the known case of at most six facets, every smooth lattice $3$-polytope with at most seven facets has the integer decomposition property. The proof combines three criteria on the normal fan, based on slicing and projection, with the classification of smooth projective toric threefolds of Picard number four; the finitely many certificates are checked in Lean~4.
+\end{abstract}
+
+\section{Introduction}
+
+A \emph{lattice polytope} $P\subset\R^n$ is the convex hull of finitely many points of $\Z^n$. It has the \emph{integer decomposition property} (IDP) if for every integer $k\ge1$ every point of $kP\cap\Z^n$ is a sum of $k$ points of $P\cap\Z^n$. It is \emph{smooth} if it is simple and at every vertex the primitive edge directions form a basis of $\Z^n$; equivalently, its normal fan is smooth. Smooth lattice polytopes are the polytopes of ample line bundles on smooth projective toric varieties, and the IDP of such a polytope is the projective normality of the corresponding embedding.
+
+Oda asked whether every smooth lattice polytope has the IDP \cite[Problems~2 and~3]{Oda08}; the affirmative answer is known as Oda's conjecture. Every lattice polygon has the IDP (Lemma~\ref{lem:reduction}), so the conjecture holds in dimension two. In dimension three it is open. It holds for smooth $3$-polytopes that are centrally symmetric \cite{BHH19}, that have at most six facets \cite{Rob24} (more generally, for smooth complete fans in $\R^n$ with at most $n+3$ rays), and that are pseudo-prisms \cite{Cur25}. It also holds for the polytope of an ample line bundle $L$ on a smooth projective toric threefold $X$ when the adjoint bundle $L+K_X$ has no nonzero section or is not big \cite{Oga12}, and then for the polytopes of all ample line bundles on $X$ \cite{Oga14}; this covers the toric Fano threefolds. In every dimension it holds for smooth combinatorial cubes \cite{Cur25} and for smooth polytopes combinatorially equivalent to products of simplices \cite{CLL26}. We prove the next case in dimension three.
+
+\begin{theorem}\label{thm:main}
+Every smooth lattice polytope in $\R^3$ with seven facets has the integer decomposition property.
+\end{theorem}
+
+\begin{corollary}\label{cor:main}
+Every smooth lattice polytope in $\R^3$ with at most seven facets has the integer decomposition property.
+\end{corollary}
+
+The proof has four parts. By Lemma~\ref{lem:reduction}, a lattice $3$-polytope $P$ has the IDP as soon as $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$. Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} give three conditions on the normal fan of $P$, each of which implies this equality: a slicing condition and two projection conditions. Proposition~\ref{prop:classification} lists the smooth complete fans with seven rays that are normal fans of polytopes, up to $\GL_3(\Z)$: they form $625$ families whose rays are affine functions of integer parameters. Proposition~\ref{prop:certificates} gives for each family a vector that satisfies one of the three conditions for all values of the parameters. For $25$ families this is proved in the text; for the remaining $600$ families it is a finite computation with polynomials in the parameters, carried out by the Lean~4 kernel and by four independent programs. The conditions depend only on the normal fan, so the theorem holds for every polytope with a given normal fan at once.
+
+\section{Reduction to the second dilate}
+
+\begin{lemma}\label{lem:reduction}
+Let $P\subset\R^n$ be a lattice polytope of dimension $d$ and let $k\ge\max(d,1)$ be an integer. Then
+\[ kP\cap\Z^n=(P\cap\Z^n)+\bigl((k-1)P\cap\Z^n\bigr). \]
+In particular every lattice polygon has the IDP, and a lattice $3$-polytope $P$ has the IDP if and only if $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$.
+\end{lemma}
+
+This is the argument behind \cite[Theorem~1.3.3]{BGT97} and \cite{EW91}; we include it because it is used in every proof below.
+
+\begin{proof}
+The inclusion $\supseteq$ is clear. If $d=0$ then $P=\{v\}$ and $x=kv=v+(k-1)v$. Let $d\ge1$ and fix a triangulation $T$ of $P$ whose vertices are exactly the points of $P\cap\Z^n$ (for instance a placing triangulation \cite{DRS10}). A simplex $S\in T$ contains no lattice point other than its vertices, since such a point would be a vertex of $T$ lying in $S$.
+
+Let $x\in kP\cap\Z^n$. Then $x\in kS$ for a $d$-simplex $S\in T$ with vertices $v_0,\dots,v_d$, and $x=\sum_i\lambda_iv_i$ with $\lambda_i\ge0$ and $\sum_i\lambda_i=k$. Write $\lambda_i=\lfloor\lambda_i\rfloor+\mu_i$ with $0\le\mu_i<1$. The point $y=\sum_i\mu_iv_i=x-\sum_i\lfloor\lambda_i\rfloor v_i$ lies in $\Z^n$, and $\sum_i\mu_i=k-\sum_i\lfloor\lambda_i\rfloor$ is an integer smaller than $d+1$. If $\sum_i\mu_i=d$, then every $\mu_i$ is positive and $\sum_iv_i-y=\sum_i(1-\mu_i)v_i$ is a lattice point of $S$ with all barycentric coordinates in $(0,1)$, which is not a vertex of $S$; this is impossible. Hence $\sum_i\mu_i\le d-1<k$, so $\lfloor\lambda_j\rfloor\ge1$ for some $j$. Then $x=v_j+(x-v_j)$, where $x-v_j=\sum_i(\lambda_i-\delta_{ij})v_i$ has nonnegative coefficients with sum $k-1$, so $x-v_j\in(k-1)S\cap\Z^n\subseteq(k-1)P\cap\Z^n$.
+
+For a polygon the case $k\ge2$ gives the IDP by induction on $k$. For a $3$-polytope, the case $k\ge3$ shows $kP\cap\Z^3=(P\cap\Z^3)+((k-1)P\cap\Z^3)$, and induction on $k$ reduces the IDP to $k=2$.
+\end{proof}
+
+The lemma applies to any full-rank lattice $\Lambda\subset\R^n$ in place of $\Z^n$, by a linear change of coordinates, and to a polytope whose vertices lie in a coset $w+\Lambda$, by translation by $w$. We use it in this form for polygons and segments in planes of $\R^3$.
+
+\section{Three criteria}\label{sec:criteria}
+
+\paragraph{Notation.} We use the standard scalar product $\inn{x}{y}$ on $\R^3$, the determinant $\det(a,b,c)$ of three vectors, and the cross product, for which $\inn{a\times b}{w}=\det(a,b,w)$. A lattice $3$-polytope is written irredundantly as
+\[ P=\{x\in\R^3:\inn{x}{\rho_i}\ge c_i\ (0\le i<r)\} \]
+with primitive $\rho_i\in\Z^3$; then $c_i\in\Z$. Let $\Phi_i=\{x\in P:\inn{x}{\rho_i}=c_i\}$ be the facets. The normal fan $\Sigma$ of $P$ has rays $\rho_0,\dots,\rho_{r-1}$; its two-dimensional cones $\cone(\rho_i,\rho_j)$ correspond to the edges $\Phi_i\cap\Phi_j$, and its maximal cones to the vertices. If $P$ is smooth, every maximal cone $\cone(\rho_i,\rho_j,\rho_k)$ is generated by a basis of $\Z^3$, and the edges at the corresponding vertex $v$ point in the directions of the dual basis $e_i,e_j,e_k$, where $\inn{e_i}{\rho_i}=1$ and $\inn{e_i}{\rho_j}=\inn{e_i}{\rho_k}=0$.
+
+\begin{lemma}\label{lem:plane}
+\begin{enumerate}
+\item[(a)] Let $\alpha,\beta\in\Z^2$ and $a,b\in\Z$, and suppose the lines $\inn{y}{\alpha}=a$ and $\inn{y}{\beta}=b$ in $\R^2$ meet in exactly one point $q$. If $|\det(\alpha,\beta)|=1$ then $q\in\Z^2$.
+\item[(b)] Let $A,B\subset\R^2$ be convex polygons and let $q$ be a vertex of $A\cap B$ that is a vertex of neither $A$ nor $B$. Then $q$ lies in the relative interior of an edge of $A$ and in the relative interior of an edge of $B$, and the lines spanned by these two edges are distinct.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) By Cramer's rule $q$ is the image of $(a,b)$ under the inverse of an integer matrix of determinant $\pm1$.
+(b) If $q$ were an interior point of $A$, then $A\cap B$ would coincide with $B$ near $q$ and $q$ would be a vertex of $B$. So $q\in\partial A$, and as $q$ is not a vertex of $A$ it lies in the relative interior of an edge of $A$; similarly for $B$. If the two edges spanned the same line, then near $q$ both $A$ and $B$ would be half-planes bounded by this line, and $q$ would not be a vertex of $A\cap B$.
+\end{proof}
+
+We also use the following result of Haase, Nill, Paffenholz and Santos.
+
+\begin{lemma}[{\cite[Proposition~2.1]{HNPS08}}]\label{lem:hnps}
+Let $A,B\subset\R^2$ be two-dimensional lattice polygons such that $A\cap B$ is nonempty and contains no point of $\Z^2$. Then $A\cap B$ is a quadrilateral, two opposite edges of which lie in edges of $A$ and the other two in edges of $B$.
+\end{lemma}
+
+\subsection*{Slicing}
+
+\begin{proposition}\label{prop:slice}
+Let $P$ be a smooth lattice $3$-polytope with normal fan $\Sigma$, and let $u\in\Z^3\setminus\{0\}$ satisfy:
+\begin{enumerate}
+\item[(S1)] for every maximal cone $\cone(\rho_i,\rho_j,\rho_k)$ of $\Sigma$, $u=a\rho_i+b\rho_j+c\rho_k$ with $a,b,c\in\{-1,0,1\}$;
+\item[(S2)] the graph $G_u$ on $\{0,\dots,r-1\}$ in which $i$ and $j$ are adjacent when $|\det(u,\rho_i,\rho_j)|\ge2$ contains no cycle of length four.
+\end{enumerate}
+Then $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$.
+\end{proposition}
+
+\begin{proof}
+By (S1) $u$ is primitive, so after a change of coordinates by $\GL_3(\Z)$, which changes all determinants by the same sign, we may assume $u=(0,0,1)$. For $x\in\R^3$ write $x=(x',x_3)$ with $x'\in\R^2$, and for each ray write $\rho_i=(\bar\rho_i,\rho_i^3)$. Then $\det(u,\rho_i,\rho_j)=\det(\bar\rho_i,\bar\rho_j)$. For $t\in\R$ let $L_t=\{x_3=t\}$ and $P_t=P\cap L_t$, and let $[t_-,t_+]$ be the image of $P$ under $x\mapsto x_3$; its ends are integers. We identify $L_t$ with $\R^2$ by $x\mapsto x'$; for integer $t$ this identifies $L_t\cap\Z^3$ with $\Z^2$. On $L_t$ the facet $\Phi_k$ lies in the line $\inn{x'}{\bar\rho_k}=c_k-t\rho^3_k$, whose normal $\bar\rho_k$ and right-hand side are integral when $t\in\Z$.
+
+\emph{Step 1: for $t\in\Z$, $P_t$ is a lattice polytope.} A vertex $q$ of $P_t$ is either a vertex of $P$ or the intersection of $L_t$ with an edge of $P$ not contained in $L_t$. In the second case the edge starts at a vertex $v$ of $P$ in a direction $e$ of the dual basis of the maximal cone of $v$, and $\inn{e}{u}=e_3$ is the coefficient of $u$ at the corresponding ray, which is $\pm1$ by (S1). Hence $q=v\pm(t-v_3)e\in\Z^3$.
+
+\emph{Step 2: for $t\in\Z$ with $t<t_+$, $P_{t+1/2}=\frac12(P_t+P_{t+1})$.} All vertices of $P$ lie at integer heights, so the polytope $P\cap\{t\le x_3\le t+1\}$ has all its vertices in $L_t\cup L_{t+1}$ and equals $\operatorname{conv}(P_t\cup P_{t+1})$. Its section at height $t+\frac12$ is $\frac12(P_t+P_{t+1})$.
+
+\emph{Step 3: edges of the slices.} If $t_-<t<t_+$, then $L_t$ meets the interior of $P$ and $P_t$ is a polygon. If $E$ is an edge of $P_t$, a point of $\relint E$ lies on $\partial P$, hence on a facet $\Phi_k$; then $\Phi_k\cap L_t$ is a face of $P_t$ that contains this point and is not $P_t$, so $\Phi_k\cap L_t=E$ and $\bar\rho_k\ne0$. If $t\in\{t_-,t_+\}$, then $P_t$ is a face of $P$. If it is a facet $\Phi_q$, every edge of $\Phi_q$ is $\Phi_q\cap\Phi_k=\Phi_k\cap L_t$ for a neighbouring facet $\Phi_k$, and $\bar\rho_k\ne0$. If it is an edge $\Phi_i\cap\Phi_j$, then $x\mapsto x_3$ attains its minimum or its maximum on $P$ exactly on this edge, so $\pm u$ lies in the relative interior of $\cone(\rho_i,\rho_j)$; by (S1) applied to a maximal cone containing $\rho_i$ and $\rho_j$ we get $u=\pm(\rho_i+\rho_j)$, hence $\bar\rho_j=-\bar\rho_i\ne0$, and the segment $P_t$ lies on the line $\inn{x'}{\bar\rho_i}=c_i-t\rho^3_i$, which is also the line $\inn{x'}{\bar\rho_j}=c_j-t\rho^3_j$.
+
+In all cases we call $k$ a \emph{label} of the edge $E=\Phi_k\cap L_t$ of a polygon $P_t$; different edges of $P_t$ have different labels.
+
+\emph{Step 4: even heights.} Let $z\in2P\cap\Z^3$ with $z_3=2t$. Then $z/2\in P_t$, a lattice polytope of dimension at most $2$ in $L_t$ by Step~1, and Lemma~\ref{lem:reduction} with $k=2$ writes $z$ as a sum of two lattice points of $P_t$.
+
+\emph{Step 5: odd heights.} Let $z\in2P\cap\Z^3$ with $z_3=2t+1$. By Step~2, $z\in P_t+P_{t+1}$, so $A=P_t$ and $B=z-P_{t+1}$ are lattice polytopes in $L_t$ with $A\cap B\ne\emptyset$. A lattice point $x\in A\cap B$ gives $z=x+(z-x)$ with $x,z-x\in P\cap\Z^3$, so it suffices to show that $A\cap B$ contains a lattice point. The edges of $B$ are the sets $z-E$ for edges $E$ of $P_{t+1}$; such an edge with label $k$ lies on a line $\inn{x'}{\bar\rho_k}=b$ with $b\in\Z$, and we give $z-E$ the label $k$. Suppose that $A\cap B$ contains no lattice point.
+
+If $A$ or $B$ is a point, it is a lattice point of $A\cap B$. If $A$ and $B$ are polygons, Lemma~\ref{lem:hnps} shows that $A\cap B$ is a quadrilateral whose sides lie, in cyclic order, in edges of $A$, $B$, $A$, $B$ with labels $i,j,k,l$. Two opposite sides of a quadrilateral are not collinear, so $i\ne k$ and $j\ne l$. No vertex of the quadrilateral is a vertex of $A$ or $B$, so by Lemma~\ref{lem:plane}(b) each vertex is the only common point of the lines of two consecutive sides, and by Lemma~\ref{lem:plane}(a) these lines have normals with $|\det|\ge2$. Thus $i\sim j\sim k\sim l\sim i$ in $G_u$. Adjacent vertices of $G_u$ are distinct, so this is a cycle of length four, contrary to (S2).
+
+If $A$ is a segment, then by Step~3 $t=t_\pm$, $A=\Phi_i\cap\Phi_j$ and $\bar\rho_j=-\bar\rho_i$. Suppose first that $B$ is a segment too. Then $t+1$ is also an end of $[t_-,t_+]$, $P_{t+1}=\Phi_k\cap\Phi_l$ and $\bar\rho_l=-\bar\rho_k$. If $A$ and $B$ were collinear, an end of the segment $A\cap B$ would be an end of $A$ or of $B$, a lattice point. So $A$ and $B$ meet in a single point of their relative interiors, and Lemma~\ref{lem:plane}(a) gives $|\det(\bar\rho_i,\bar\rho_k)|\ge2$. As $\bar\rho_j=-\bar\rho_i$ and $\bar\rho_l=-\bar\rho_k$, the same holds for the pairs $(i,l)$, $(j,k)$, $(j,l)$, and $i,k,j,l$ is a cycle of length four in $G_u$. Suppose now that $B$ is a polygon. An end $q$ of $A\cap B$ is not an end of $A$ and not a vertex of $B$, so it lies in $\relint A$ and in the relative interior of an edge of $B$ with some label $k$. If $A$ were contained in the line of this edge, the ends of $A\cap B$ would be lattice points. So $A$ crosses this line at $q$ and enters the interior of $B$ there; hence $A\cap B$ is a segment $[q,q']$ with $q\ne q'$, and $q'$ lies on an edge of $B$ with a label $l\ne k$. Lemma~\ref{lem:plane}(a) gives $i\sim k$ and $i\sim l$, and $\bar\rho_j=-\bar\rho_i$ gives $j\sim k$ and $j\sim l$: the cycle $i,k,j,l$. The case where $B$ is a segment and $A$ a polygon is the same with $A$ and $B$ exchanged. Each case contradicts (S2).
+\end{proof}
+
+\subsection*{Projection}
+
+For Propositions~\ref{prop:proj} and~\ref{prop:proj2} let $P$ be a lattice $3$-polytope, $m\in\Z^3$ primitive, and $h_i=\inn{\rho_i}{m}$ the \emph{height} of $\rho_i$. Choose $b_1,b_2\in\Z^3$ such that $b_1,b_2,m$ is a basis of $\Z^3$, write points as $x=y_1b_1+y_2b_2+sm$ with $y=(y_1,y_2)$, and put $\rho_i'=(\inn{b_1}{\rho_i},\inn{b_2}{\rho_i})$. Then $\inn{x}{\rho_i}=\inn{y}{\rho_i'}+sh_i$, and $x\in\Z^3$ if and only if $y\in\Z^2$ and $s\in\Z$. Facets with $h_i>0$ are \emph{lower}, those with $h_i<0$ \emph{upper}; as $P$ is bounded there are both. Let
+\[ f_i(y)=\frac{c_i-\inn{y}{\rho_i'}}{h_i},\qquad f=\max_{h_i>0}f_i,\qquad g=\min_{h_i<0}f_i, \]
+let $\pi(x)=y$, and let $Q=\pi(P)$. Then $P=\{(y,s):y\in Q,\ f(y)\le s\le g(y)\}$. For a lower facet $\Phi_i$ the map $\pi$ is injective on $\Phi_i$, so $D_i=\pi(\Phi_i)$ is a polygon whose vertices are the images of the vertices of $\Phi_i$, hence lie in $\Z^2$; moreover $D_i=\{y\in Q:f(y)=f_i(y)\}$, and the polygons $D_i$ cover $Q$, since $(y,f(y))\in P$ for $y\in Q$. The same holds for the upper facets with $g$ in place of $f$; we write $U_j=\pi(\Phi_j)$ for them.
+
+\begin{proposition}\label{prop:proj}
+Let $P$ be a lattice $3$-polytope with normal fan $\Sigma$ and let $m\in\Z^3\setminus\{0\}$ satisfy:
+\begin{enumerate}
+\item[(P1)] $\inn{\rho_i}{m}\in\{-1,0,1\}$ for every ray $\rho_i$;
+\item[(P2)] for every two-dimensional cone $\cone(\rho_a,\rho_b)$ with $h_a=h_b=1$ and every two-dimensional cone $\cone(\rho_c,\rho_d)$ with $h_c=h_d=-1$,
+\[ (\rho_a-\rho_b)\times(\rho_c-\rho_d)\in\{0,m,-m\}. \]
+\end{enumerate}
+Then $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$.
+\end{proposition}
+
+\begin{proof}
+The rays span $\R^3$, so some height is nonzero, and by (P1) it is $\pm1$; hence $m$ is primitive and the notation above applies. On $D_i$ we have $f=f_i$ and on $U_j$ we have $g=f_j$, and these functions take integer values on $\Z^2$ because $h_i,h_j=\pm1$.
+
+\emph{Claim: the vertices of every polygon $C=D_i\cap U_j$ lie in $\Z^2$.} A vertex of $C$ that is a vertex of $D_i$ or of $U_j$ lies in $\Z^2$. Otherwise, by Lemma~\ref{lem:plane}(b), it is the only common point of the lines spanned by an edge $e$ of $D_i$ and an edge $e'$ of $U_j$, and it lies in the relative interiors of both. The edge $e$ is the image of an edge $\Phi_i\cap\Phi_k$. If $h_k=0$, then $e$ lies in the boundary line $\inn{y}{\rho_k'}=c_k$ of $Q$. If $h_k=-1$, then $f\ge f_i=f_k\ge g\ge f$ on $e$, so $f=g$ on $e$; since $g-f$ is concave and nonnegative on $Q$ and is not identically zero, it does not vanish at interior points of $Q$, so $e\subset\partial Q$. In both cases $e$ lies in an edge of $Q$, and $e'\subset Q$ cannot cross its line in a relative interior point of $e'$. Hence $h_k=1$, and $e$ lies on the line $\inn{y}{\alpha'}=c_i-c_k$ with $\alpha=\rho_i-\rho_k$. In the same way $e'$ is the image of $\Phi_j\cap\Phi_l$ with $h_j=h_l=-1$ and lies on the line $\inn{y}{\beta'}=c_j-c_l$ with $\beta=\rho_j-\rho_l$. Let $b_1^*,b_2^*,m^*$ be the basis dual to $b_1,b_2,m$. As $\inn{\alpha}{m}=\inn{\beta}{m}=0$, we have $\alpha=\alpha'_1b_1^*+\alpha'_2b_2^*$, similarly for $\beta$, and for every $w\in\R^3$
+\[ \inn{\alpha\times\beta}{w}=\det(\alpha,\beta,w)=\det(\alpha',\beta')\,\det(b_1^*,b_2^*,m^*)\,\inn{m}{w}. \]
+Hence $\alpha\times\beta=\pm\det(\alpha',\beta')\,m$, and (P2) gives $|\det(\alpha',\beta')|\le1$. The two lines meet in one point, so $\det(\alpha',\beta')\ne0$, and Lemma~\ref{lem:plane}(a) shows that the vertex lies in $\Z^2$.
+
+Now let $z=(Y,S)\in2P\cap\Z^3$. Then $Y/2\in Q$, so $Y/2\in C=D_i\cap U_j$ for some $i,j$, and $2f(Y/2)\le S\le2g(Y/2)$. By the claim and Lemma~\ref{lem:reduction}, $Y=y_1+y_2$ with $y_1,y_2\in C\cap\Z^2$. Since $f=f_i$ and $g=f_j$ are affine on $C$, $f(y_1)+f(y_2)=2f(Y/2)$ and $g(y_1)+g(y_2)=2g(Y/2)$. The four numbers $f(y_\nu),g(y_\nu)$ are integers with $f(y_\nu)\le g(y_\nu)$, so there are integers $s_\nu\in[f(y_\nu),g(y_\nu)]$ with $s_1+s_2=S$. The points $(y_\nu,s_\nu)$ lie in $P\cap\Z^3$ and add up to $z$.
+\end{proof}
+
+\begin{proposition}\label{prop:proj2}
+Let $P$ be a lattice $3$-polytope with normal fan $\Sigma$ and let $m\in\Z^3$. Suppose that exactly one ray $\rho_0$ has negative height, that $h_0=-1$, and that $h_i\in\{0,1,2\}$ for all other rays. Then $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$.
+\end{proposition}
+
+\begin{proof}
+As $h_0=-1$, $m$ is primitive. The only upper facet is $\Phi_0$, so $g=f_0$ is affine on all of $\R^2$ and takes integer values on $\Z^2$. Let $z=(Y,S)\in2P\cap\Z^3$. Then $Y/2\in D_i$ for a lower facet $\Phi_i$, and $2f(Y/2)\le S\le2g(Y/2)$. We claim that there are $y_1,y_2\in D_i\cap\Z^2$ with $y_1+y_2=Y$ and $\lceil f(y_1)\rceil+\lceil f(y_2)\rceil\le S$. Given the claim, $\lceil f(y_\nu)\rceil\le g(y_\nu)$ because $g(y_\nu)$ is an integer, and $S\le2g(Y/2)=g(y_1)+g(y_2)$; so there are integers $s_\nu\in[\lceil f(y_\nu)\rceil,g(y_\nu)]$ with $s_1+s_2=S$, and $(y_1,s_1)+(y_2,s_2)=z$ with both summands in $P\cap\Z^3$.
+
+If $h_i=1$, then $f=f_i$ takes integer values on $\Z^2$, and Lemma~\ref{lem:reduction} gives $y_1+y_2=Y$ in $D_i\cap\Z^2$ with $f(y_1)+f(y_2)=2f(Y/2)\le S$. Let $h_i=2$. As $\rho_i$ is primitive, $\rho_i'\notin2\Z^2$, so $\Lambda=\{y\in\Z^2:\inn{y}{\rho_i'}\text{ even}\}$ has index $2$ in $\Z^2$, and $T=\{y\in\Z^2:\inn{y}{\rho_i'}\equiv c_i\pmod 2\}$ is a coset of $\Lambda$. For $y\in\Z^2$ the number $f_i(y)$ is an integer if $y\in T$ and lies in $\Z+\frac12$ otherwise. A vertex $(y,s)$ of $\Phi_i$ satisfies $\inn{y}{\rho_i'}+2s=c_i$, so the vertices of $D_i$ lie in $T$.
+
+If $\inn{Y}{\rho_i'}$ is even, choose $w\in T$; then $Y-2w\in\Lambda$, and Lemma~\ref{lem:reduction} for the lattice $\Lambda$ and the polygon $D_i-w$ gives $Y-2w=y_1'+y_2'$ with $y_\nu'\in(D_i-w)\cap\Lambda$. The points $y_\nu=y_\nu'+w$ lie in $D_i\cap T$, so $f(y_\nu)\in\Z$ and $f(y_1)+f(y_2)=2f(Y/2)\le S$.
+
+If $\inn{Y}{\rho_i'}$ is odd, Lemma~\ref{lem:reduction} gives $Y=y_1+y_2$ with $y_\nu\in D_i\cap\Z^2$. As $\inn{y_1}{\rho_i'}+\inn{y_2}{\rho_i'}$ is odd, exactly one of $y_1,y_2$ lies in $T$, so $\lceil f(y_1)\rceil+\lceil f(y_2)\rceil=f(y_1)+f(y_2)+\frac12=2f(Y/2)+\frac12$. Moreover $2f(Y/2)=c_i-\frac12\inn{Y}{\rho_i'}\in\Z+\frac12$, and $S\ge2f(Y/2)$ is an integer, so $S\ge2f(Y/2)+\frac12$.
+\end{proof}
+
+Propositions~\ref{prop:proj} and~\ref{prop:proj2} do not use smoothness. We write $S(u)$, $P(m)$ and $Q(m)$ for a vector satisfying the hypotheses of Proposition~\ref{prop:slice}, \ref{prop:proj} or~\ref{prop:proj2}, respectively, and call it a \emph{certificate} of $\Sigma$.
+
+\section{The fans}\label{sec:classification}
+
+A smooth complete fan in $\R^3$ is the normal fan of a smooth $3$-polytope exactly when its toric variety is projective, and the number of facets of the polytope is the number of rays of the fan. If $\Sigma$ is a smooth fan and $\tau=\cone(\rho_{i_1},\dots,\rho_{i_d})$ is a cone of $\Sigma$ of dimension $d\in\{2,3\}$, the \emph{star subdivision} of $\Sigma$ at $\tau$ has the additional ray $\rho_{i_1}+\dots+\rho_{i_d}$; each maximal cone $\sigma\supseteq\tau$ is replaced by the cones spanned by the new ray and the faces of $\sigma$ of dimension $2$ that do not contain $\tau$. It is the fan of the blowup of the toric variety along the torus-invariant point ($d=3$) or curve ($d=2$) given by $\tau$ \cite[Section~3.3]{CLS11}. We write $p_{ijk}$ for the star subdivision at $\cone(\rho_i,\rho_j,\rho_k)$ and $c_{ij}$ for the one at $\cone(\rho_i,\rho_j)$, and we give the new ray the next free index.
+
+The following fans have rays depending on integer parameters $a,b\in\Z$ and $p\in\Z^4$ or $p\in\Z^5$; cones are listed by the indices of their rays.
+\begin{itemize}
+\item $Z_a$: $\rho_0=(1,0,0)$, $\rho_1=(0,1,0)$, $\rho_2=(-1,-1,a)$, $\rho_3=(0,0,1)$, $\rho_4=(0,0,-1)$; maximal cones $013$, $014$, $123$, $124$, $023$, $024$. This is the fan of $\mathbb{P}(\mathcal{O}\oplus\mathcal{O}(a))$ over $\mathbb{P}^2$.
+\item $W_{a,b}$: $\rho_0=(1,0,0)$, $\rho_1=(0,1,0)$, $\rho_2=(-1,-1,0)$, $\rho_3=(0,0,1)$, $\rho_4=(a,b,-1)$, with the same maximal cones. This is the fan of $\mathbb{P}(\mathcal{O}\oplus\mathcal{O}(a)\oplus\mathcal{O}(b))$ over $\mathbb{P}^1$.
+\item $F_{a,p}$: $\rho_i=(v_i,p_i)$ for $0\le i\le3$, where $v_0=(1,0)$, $v_1=(0,1)$, $v_2=(-1,a)$, $v_3=(0,-1)$ are the rays of the Hirzebruch surface, $\rho_4=(0,0,1)$, $\rho_5=(0,0,-1)$; maximal cones $\{i,i+1,4\}$ and $\{i,i+1,5\}$ with $i+1$ taken modulo $4$. This is the fan of a $\mathbb{P}^1$-bundle over the Hirzebruch surface.
+\item $G^j_{a,p}$ for $0\le j\le3$: the fan built in the same way over the five vectors $v_0,\dots,v_j,v_j+v_{j+1},v_{j+1},\dots,v_3$ (indices modulo $4$), numbered $0,\dots,4$ in this order, with $\rho_5=(0,0,1)$ and $\rho_6=(0,0,-1)$. These are $\mathbb{P}^1$-bundles over the blowups of the Hirzebruch surface at a fixed point.
+\item $C_a$: $\rho_0=(1,0,0)$, $\rho_1=(0,1,0)$, $\rho_2=(0,0,1)$, $\rho_3=(0,-1,a)$, $\rho_4=(0,0,-1)$, $\rho_5=(0,1,-1)$, $\rho_6=(-1,2,-1)$; maximal cones $012$, $023$, $034$, $045$, $056$, $016$, $126$, $236$, $346$, $456$. This is the family~(a) of \cite[Section~3]{FP05}.
+\end{itemize}
+
+\begin{proposition}\label{prop:classification}
+Let $\Sigma$ be a smooth complete fan in $\R^3$ with seven rays whose toric variety is projective. Then $\Sigma$ is equivalent under $\GL_3(\Z)$ to one of the following fans:
+\begin{enumerate}
+\item[(i)] a star subdivision, at a cone of dimension $2$ or $3$, of a star subdivision of $Z_a$ or of $W_{a,b}$ at a cone of dimension $2$ or $3$ ($600$ families);
+\item[(ii)] a star subdivision of $F_{a,p}$ at a cone of dimension $2$ or $3$ ($20$ families);
+\item[(iii)] $G^j_{a,p}$ with $0\le j\le3$ ($4$ families);
+\item[(iv)] $C_a$ ($1$ family).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Let $X$ be the toric variety of $\Sigma$. It is smooth and projective of Picard number $7-3=4$ \cite[Chapter~4]{CLS11}. Call a smooth complete toric threefold \emph{minimal} if its fan is not a star subdivision of a smooth complete fan at a cone of dimension $2$ or $3$, that is, if it is not the blowup of a smooth complete toric threefold along a torus-invariant point or curve. By the classification of Miyake and Oda \cite[Section~9]{Oda78} and Nagaya \cite{Nag76}, in the form stated in \cite[Section~3, proof of the Lemma]{FP05}, every minimal smooth complete toric threefold of Picard number less than $5$ is $\mathbb{P}^3$, a $\mathbb{P}^2$-bundle over $\mathbb{P}^1$, a $\mathbb{P}^1$-bundle over a smooth projective toric surface, the variety of the fan $C_a$, or one further variety of Picard number $4$, which is not projective \cite[Proposition~9.4]{Oda78}.
+
+If $X$ is minimal, it is not $\mathbb{P}^3$ or a $\mathbb{P}^2$-bundle over $\mathbb{P}^1$, whose Picard numbers are $1$ and $2$. If it is a $\mathbb{P}^1$-bundle over a surface $S$, then $S$ has Picard number $3$, so its fan has five rays and $S$ is the blowup of a Hirzebruch surface at a fixed point \cite[Theorem~10.4.3]{CLS11}; the fan of $X$ is then $G^j_{a,p}$ for some $j,a,p$. Otherwise $\Sigma$ is $C_a$.
+
+If $X$ is not minimal, $\Sigma$ is a star subdivision of a smooth complete fan $\Sigma'$ with six rays. If the variety of $\Sigma'$ is minimal, it has Picard number $3$ and by the same classification it is a $\mathbb{P}^1$-bundle over a surface with four rays, that is, over a Hirzebruch surface; so $\Sigma'$ is $F_{a,p}$. Otherwise $\Sigma'$ is a star subdivision of a smooth complete fan with five rays, which is $Z_a$ or $W_{a,b}$ by Kleinschmidt's classification of smooth complete fans with $n+2$ rays \cite{Kle88}.
+
+The fans $Z_a$ and $W_{a,b}$ have $6$ maximal cones and $9$ two-dimensional cones, and each of their star subdivisions has $8$ maximal cones and $12$ two-dimensional cones; this gives $2\cdot15\cdot20=600$ families in~(i) and $8+12=20$ in~(ii).
+\end{proof}
+
+\section{Certificates}\label{sec:certificates}
+
+\begin{proposition}\label{prop:certificates}
+For each of the $625$ families of Proposition~\ref{prop:classification}, the vector listed in Appendix~\ref{app:table} is a certificate of every fan of the family, for all integer values of the parameters.
+\end{proposition}
+
+We first treat the $25$ families (ii)--(iv) by hand, then give two examples from~(i), and then describe the verification of all $625$ families by computer.
+
+\begin{lemma}\label{lem:bundles}
+Let $v_0,\dots,v_{q-1}$ be the rays, in cyclic order, of a smooth complete fan in $\R^2$, let $p\in\Z^q$, and let $\Sigma$ be the fan with rays $\rho_i=(v_i,p_i)$ for $0\le i<q$, $\rho_q=(0,0,1)$, $\rho_{q+1}=(0,0,-1)$, and maximal cones $\cone(\rho_i,\rho_{i+1},\rho_q)$ and $\cone(\rho_i,\rho_{i+1},\rho_{q+1})$, with $i+1$ taken modulo $q$. Let $u=(0,0,-1)$.
+\begin{enumerate}
+\item[(a)] If $q\le5$, then $u$ satisfies (S1) and (S2) for $\Sigma$.
+\item[(b)] If $q\le4$, then $u$ satisfies (S1) and (S2) for every star subdivision of $\Sigma$ at a cone of dimension $2$ or $3$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+For $x,y\in\R^3$ with first two coordinates $\bar x,\bar y$ we have $\det(u,x,y)=-\det(\bar x,\bar y)$. Hence $\rho_q$ and $\rho_{q+1}$ are isolated in $G_u$, and $i<q$ and $j<q$ are adjacent exactly when $|\det(v_i,v_j)|\ge2$. Consecutive rays $v_i,v_{i+1}$ have $|\det(v_i,v_{i+1})|=1$, so the restriction of $G_u$ to $\{0,\dots,q-1\}$ is contained in the complement of the cycle $0,1,\dots,q-1$. For $q=3,4,5$ this complement is empty, a perfect matching, and a cycle of length five, and none of them contains a cycle of length four.
+
+(a) Every maximal cone contains $\rho_q$ or $\rho_{q+1}$, and $u=-\rho_q=\rho_{q+1}$, so (S1) holds; (S2) was just shown.
+
+(b) Let $w$ be the new ray. If the subdivided cone is $\cone(\rho_i,\rho_{i+1},\rho_q)$, then $w=\rho_i+\rho_{i+1}+\rho_q$ and the new maximal cones are $\cone(\rho_i,\rho_{i+1},w)$, in which $u=\rho_i+\rho_{i+1}-w$, and two cones containing $\rho_q$. If it is $\cone(\rho_i,\rho_{i+1})$, all new maximal cones contain $\rho_q$ or $\rho_{q+1}$. If it is $\cone(\rho_i,\rho_q)$, then $w=\rho_i+\rho_q$ and the new maximal cones without $\rho_q$ are $\cone(\rho_{i-1},\rho_i,w)$ and $\cone(\rho_i,\rho_{i+1},w)$, in which $u=\rho_i-w$. The cones containing $\rho_{q+1}$ are symmetric. So (S1) holds in all cases.
+For (S2), in the first two cases $\bar w=v_i+v_{i+1}$, and $v_0,\dots,v_i,v_i+v_{i+1},v_{i+1},\dots,v_{q-1}$ are the rays, in cyclic order, of a smooth complete fan in $\R^2$ with $q+1\le5$ rays; the argument above applies. In the third case $\bar w=v_i$, so $w$ is adjacent in $G_u$ exactly to the neighbours of $i$ and not to $i$. A cycle of length four would have to pass through $w$, since the graph without $w$ has none, and then $i$ would have two distinct neighbours; but for $q\le4$ every vertex has at most one neighbour.
+\end{proof}
+
+Lemma~\ref{lem:bundles}(b) with $q=4$ gives the certificate $S(0,0,-1)$ for the $20$ families~(ii), and Lemma~\ref{lem:bundles}(a) with $q=5$ gives it for the four families $G^j_{a,p}$. The fans $G^j_{a,p}$ are pseudo-prisms in the sense of \cite{Cur25}, whose Theorem~4.6 also covers them. For $C_a$ take $m=(-1,-1,0)$: the heights of $\rho_0,\dots,\rho_6$ are $-1,-1,0,1,0,-1,-1$, so (P1) holds, and only $\rho_3$ has height $1$, so no two-dimensional cone has both heights $1$ and (P2) holds trivially. This is the certificate $P(-1,-1,0)$.
+
+\paragraph{Two examples from~(i).} Subdividing $Z_a$ at $p_{013}$ and then at $p_{015}$ adds $\rho_5=(1,1,1)$ and $\rho_6=\rho_0+\rho_1+\rho_5=(2,2,1)$. For $m=(-1,1,0)$ the heights of $\rho_0,\dots,\rho_6$ are $-1,1,0,0,0,0,0$, so (P1) holds and (P2) is vacuous: this is $P(-1,1,0)$. Subdividing $W_{a,b}$ at $c_{24}$ and then at $c_{45}$ adds $\rho_5=\rho_2+\rho_4=(a-1,b-1,-1)$ and $\rho_6=\rho_4+\rho_5=(2a-1,2b-1,-2)$. For $m=(0,0,-1)$ the heights are $0,0,0,-1,1,1,2$, which is the certificate $Q(0,0,-1)$ of Proposition~\ref{prop:proj2}.
+
+\paragraph{Verification of all families.} In each family the rays are vectors whose coordinates are integer affine functions of the parameters. Every quantity in the hypotheses of Propositions~\ref{prop:slice}--\ref{prop:proj2} is then a polynomial in the parameters: the coordinates of $u$ in the basis of a maximal cone (the cone determinants are the constants $\pm1$), the determinants $\det(u,\rho_i,\rho_j)$, the heights $\inn{\rho_i}{m}$ and the cross products in~(P2). A certificate is accepted only if each quantity that must lie in a finite set is a constant polynomial whose value lies in that set. For (S2), a pair $i,j$ is counted as adjacent unless $\det(u,\rho_i,\rho_j)$ is a constant of absolute value at most $1$; the graph obtained contains $G_u$ for every value of the parameters, and it is required to contain no cycle of length four. An accepted certificate therefore satisfies the hypotheses for all values of the parameters.
+
+The check is carried out in five independent ways on the table of Appendix~\ref{app:table}, stored with one line per family in the file \texttt{data/certificates.txt}. Each program builds the $625$ families of Proposition~\ref{prop:classification} from the five base fans, checks that every fan is smooth and complete, that every family has exactly one line in the table, and that every certificate is accepted.
+\begin{itemize}
+\item A Lean~4 project \cite{Lean4} using Mathlib \cite{mathlib} proves the theorem \texttt{Oda.certificate} stated in Appendix~\ref{app:lean}. The hypotheses of Propositions~\ref{prop:slice}--\ref{prop:proj2} are formalized as propositions about integer vectors; Boolean checkers compute on the polynomial coefficients of the rays, and soundness theorems prove that a checker returning \texttt{true} gives the hypothesis at every value of the parameters. The checkers are evaluated by the kernel (\texttt{decide +kernel}); the proof uses no \texttt{native\_decide}, no \texttt{sorry} and no additional axioms, and \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}.
+\item A Python program and a Julia program compute with exact polynomials in the parameters.
+\item A C program and a C++ program use that every quantity above has total degree at most $3$, hence degree at most $3$ in each parameter, so it equals a constant $c$ if and only if it takes the value $c$ at every point of a grid with four values per parameter; they use the grids $\{0,1,2,3\}$ and $\{-2,-1,1,3\}$.
+\end{itemize}
+
+\section{Proof of Theorem~\ref{thm:main} and Corollary~\ref{cor:main}}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Let $P\subset\R^3$ be a smooth lattice polytope with seven facets. Its normal fan $\Sigma$ is a smooth complete fan with seven rays whose toric variety is projective. By Proposition~\ref{prop:classification} there is $\gamma\in\GL_3(\Z)$ such that $\gamma\Sigma$ is a fan of one of the $625$ families, for some values of the parameters. The polytope $P^\gamma=(\gamma^{-1})^{\mathsf T}P$ is a smooth lattice polytope with normal fan $\gamma\Sigma$, and the map $x\mapsto(\gamma^{-1})^{\mathsf T}x$ preserves $\Z^3$, so $P$ has the IDP if and only if $P^\gamma$ has. By Proposition~\ref{prop:certificates}, $\gamma\Sigma$ has a certificate, and Proposition~\ref{prop:slice}, \ref{prop:proj} or~\ref{prop:proj2} gives $2P^\gamma\cap\Z^3=(P^\gamma\cap\Z^3)+(P^\gamma\cap\Z^3)$. By Lemma~\ref{lem:reduction}, $P^\gamma$ has the IDP.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:main}]
+The normal fan of a smooth lattice $3$-polytope with at most six facets is a smooth complete fan in $\R^3$ with at most $3+3$ rays, so the polytope has the IDP by \cite[Theorem~1.4]{Rob24}. Seven facets is Theorem~\ref{thm:main}.
+\end{proof}
+
+The criteria of Section~\ref{sec:criteria} do not settle every smooth $3$-polytope: they are sufficient conditions on the normal fan, and the case of eight or more facets remains open.
+
+\appendix
+
+\section{The certificates}\label{app:table}
+
+For the families (i) we list the two subdivisions in the order in which they are made; the new rays are $\rho_5$ and $\rho_6$. For each family the certificate is $S(u)$, $P(m)$ or $Q(m)$ in the coordinates of Section~\ref{sec:classification}. This block is generated from \texttt{data/certificates.txt} by \texttt{verification/python/paper\_table.py}, which also checks that it agrees with the table.
+
+{\raggedright
+% BEGIN TABLE (generated by verification/python/paper_table.py)
+\paragraph{Double blowups of $Z_a$ (300 pairs).} The certificate is $S(0,0,-1)$ for 264 pairs; the other pairs are:
+\begin{itemize}
+\item $P(-1,0,0)$ (20 pairs): $p_{013}\,c_{15}$, $p_{014}\,c_{15}$, $p_{023}\,p_{025}$, $p_{023}\,c_{05}$, $p_{023}\,c_{25}$, $p_{024}\,p_{025}$, $p_{024}\,c_{05}$, $p_{024}\,c_{25}$, $p_{123}\,c_{15}$, $p_{124}\,c_{15}$, $c_{03}\,p_{025}$, $c_{04}\,p_{025}$, $c_{13}\,p_{015}$, $c_{13}\,p_{125}$, $c_{13}\,c_{15}$, $c_{14}\,p_{015}$, $c_{14}\,p_{125}$, $c_{14}\,c_{15}$, $c_{23}\,p_{025}$, $c_{24}\,p_{025}$.
+\item $P(-1,1,0)$ (12 pairs): $p_{013}\,p_{015}$, $p_{013}\,c_{05}$, $p_{014}\,p_{015}$, $p_{014}\,c_{05}$, $p_{123}\,c_{25}$, $p_{124}\,c_{25}$, $c_{03}\,p_{015}$, $c_{04}\,p_{015}$, $c_{23}\,p_{125}$, $c_{23}\,c_{25}$, $c_{24}\,p_{125}$, $c_{24}\,c_{25}$.
+\item $P(0,-1,0)$ (4 pairs): $p_{123}\,p_{125}$, $p_{124}\,p_{125}$, $c_{03}\,c_{05}$, $c_{04}\,c_{05}$.
+\end{itemize}
+\paragraph{Double blowups of $W_{a,b}$ (300 pairs).} The certificate is $S(-1,-1,0)$ for 186 pairs; the other pairs are:
+\begin{itemize}
+\item $P(0,0,-1)$ (72 pairs): $p_{013}\,p_{014}$, $p_{013}\,p_{024}$, $p_{013}\,p_{124}$, $p_{013}\,c_{04}$, $p_{013}\,c_{14}$, $p_{013}\,c_{24}$, $p_{014}\,p_{013}$, $p_{014}\,p_{023}$, $p_{014}\,p_{123}$, $p_{014}\,c_{03}$, $p_{014}\,c_{13}$, $p_{014}\,c_{23}$, $p_{023}\,p_{014}$, $p_{023}\,p_{024}$, $p_{023}\,p_{124}$, $p_{023}\,c_{04}$, $p_{023}\,c_{14}$, $p_{023}\,c_{24}$, $p_{024}\,p_{013}$, $p_{024}\,p_{023}$, $p_{024}\,p_{123}$, $p_{024}\,c_{03}$, $p_{024}\,c_{13}$, $p_{024}\,c_{23}$, $p_{123}\,p_{014}$, $p_{123}\,p_{024}$, $p_{123}\,p_{124}$, $p_{123}\,c_{04}$, $p_{123}\,c_{14}$, $p_{123}\,c_{24}$, $p_{124}\,p_{013}$, $p_{124}\,p_{023}$, $p_{124}\,p_{123}$, $p_{124}\,c_{03}$, $p_{124}\,c_{13}$, $p_{124}\,c_{23}$, $c_{03}\,p_{014}$, $c_{03}\,p_{024}$, $c_{03}\,p_{124}$, $c_{03}\,c_{04}$, $c_{03}\,c_{14}$, $c_{03}\,c_{24}$, $c_{04}\,p_{013}$, $c_{04}\,p_{023}$, $c_{04}\,p_{123}$, $c_{04}\,c_{03}$, $c_{04}\,c_{13}$, $c_{04}\,c_{23}$, $c_{13}\,p_{014}$, $c_{13}\,p_{024}$, $c_{13}\,p_{124}$, $c_{13}\,c_{04}$, $c_{13}\,c_{14}$, $c_{13}\,c_{24}$, $c_{14}\,p_{013}$, $c_{14}\,p_{023}$, $c_{14}\,p_{123}$, $c_{14}\,c_{03}$, $c_{14}\,c_{13}$, $c_{14}\,c_{23}$, $c_{23}\,p_{014}$, $c_{23}\,p_{024}$, $c_{23}\,p_{124}$, $c_{23}\,c_{04}$, $c_{23}\,c_{14}$, $c_{23}\,c_{24}$, $c_{24}\,p_{013}$, $c_{24}\,p_{023}$, $c_{24}\,p_{123}$, $c_{24}\,c_{03}$, $c_{24}\,c_{13}$, $c_{24}\,c_{23}$.
+\item $S(-1,0,0)$ (22 pairs): $p_{013}\,p_{035}$, $p_{014}\,p_{045}$, $p_{023}\,p_{035}$, $p_{023}\,c_{05}$, $p_{024}\,p_{045}$, $p_{024}\,c_{05}$, $p_{123}\,c_{15}$, $p_{124}\,c_{15}$, $c_{02}\,p_{035}$, $c_{02}\,p_{045}$, $c_{02}\,c_{05}$, $c_{03}\,c_{13}$, $c_{04}\,c_{14}$, $c_{12}\,p_{135}$, $c_{12}\,p_{145}$, $c_{12}\,c_{15}$, $c_{13}\,p_{035}$, $c_{13}\,c_{03}$, $c_{14}\,p_{045}$, $c_{14}\,c_{04}$, $c_{23}\,p_{035}$, $c_{24}\,p_{045}$.
+\item $S(0,-1,0)$ (8 pairs): $p_{013}\,p_{135}$, $p_{014}\,p_{145}$, $p_{123}\,p_{135}$, $p_{124}\,p_{145}$, $c_{03}\,p_{135}$, $c_{04}\,p_{145}$, $c_{23}\,p_{135}$, $c_{24}\,p_{145}$.
+\item $Q(0,0,-1)$ (6 pairs): $p_{014}\,c_{45}$, $p_{024}\,c_{45}$, $p_{124}\,c_{45}$, $c_{04}\,c_{45}$, $c_{14}\,c_{45}$, $c_{24}\,c_{45}$.
+\item $Q(0,0,1)$ (6 pairs): $p_{013}\,c_{35}$, $p_{023}\,c_{35}$, $p_{123}\,c_{35}$, $c_{03}\,c_{35}$, $c_{13}\,c_{35}$, $c_{23}\,c_{35}$.
+\end{itemize}
+\paragraph{Blowups of $F_{a,p}$ (20 centres).} The certificate is $S(0,0,-1)$ for every centre.
+\paragraph{The fans $G^j_{a,p}$.} $G^0$: $S(0,0,-1)$; $G^1$: $S(0,0,-1)$; $G^2$: $S(0,0,-1)$; $G^3$: $S(0,0,-1)$.
+\paragraph{The fan $C_a$.} $P(-1,-1,0)$.
+% END TABLE
+}
+
+\section{The Lean statement}\label{app:lean}
+
+The Lean project defines a fan with integer rays as a list of rays and a list of maximal cones, given by triples of ray indices, and a family as the same data with rays whose coordinates are integer affine functions of a parameter vector $p$; \texttt{X.ev p} is the fan of the family $X$ at $p$, \texttt{B.centers} is the list of cones of dimension $2$ and $3$ of $B$, and \texttt{B.blow c} is the star subdivision at $c$, with the new ray as the last ray. The families \texttt{famZ}, \texttt{famW}, \texttt{famF}, \texttt{famG j} and \texttt{famC} are $Z_a$, $W_{a,b}$, $F_{a,p}$, $G^j_{a,p}$ and $C_a$. The predicate \texttt{HasCert F} states that some $v\in\Z^3$ satisfies \texttt{SCond F v}, \texttt{PCond F v} or \texttt{P2Cond F v}, which are the hypotheses of Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} word for word, with (S2) stated as: for all ray indices $i,j,k,l$ with $i\ne k$ and $j\ne l$, the four pairs $(i,j),(j,k),(k,l),(l,i)$ are not all adjacent. The theorem \texttt{Oda.certificate} is the conjunction of the following five statements, written with the Lean symbols in mathematical notation:
+{\raggedright
+\begin{enumerate}
+\item $\forall c_1\in\texttt{famZ.centers}$, $\forall c_2\in(\texttt{famZ.blow}\ c_1)\texttt{.centers}$, $\forall p$: \ $\texttt{HasCert}\,(((\texttt{famZ.blow}\ c_1)\texttt{.blow}\ c_2)\texttt{.ev}\ p)$;
+\item $\forall c_1\in\texttt{famW.centers}$, $\forall c_2\in(\texttt{famW.blow}\ c_1)\texttt{.centers}$, $\forall p$: \ $\texttt{HasCert}\,(((\texttt{famW.blow}\ c_1)\texttt{.blow}\ c_2)\texttt{.ev}\ p)$;
+\item $\forall c\in\texttt{famF.centers}$, $\forall p$: \ $\texttt{HasCert}\,((\texttt{famF.blow}\ c)\texttt{.ev}\ p)$;
+\item $\forall j<4$, $\forall p$: \ $\texttt{HasCert}\,((\texttt{famG}\ j)\texttt{.ev}\ p)$;
+\item $\forall p$: \ $\texttt{HasCert}\,(\texttt{famC.ev}\ p)$.
+\end{enumerate}
+The script \texttt{verification/lean/check.sh} regenerates the data files of the project from the table and compares them with the committed files, rejects \texttt{sorry}, \texttt{admit}, \texttt{native\_decide} and new axioms, builds the project and checks the output of \texttt{\#print axioms Oda.certificate}. The build takes about two minutes on four cores.\par}
+
+\section*{Data availability}
+The certificate table, the programs, the Lean project and the scripts that run them are available at \url{https://github.com/creelie/probable-octo-palm-tree} \cite{archive}. The script \texttt{verification/shell/run\_all.sh} runs the five checks, the consistency check of Appendix~\ref{app:table} and a direct test of $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$ on random polytopes from the families; the test is not part of the proof.
+
+\section*{Use of AI tools}
+The author used the generative AI tool Claude Code (Anthropic) to develop the proofs, to write the verification programs and the Lean formalization, and to draft this article. The author reviewed the content and takes full responsibility for it.
+
+{\raggedright
+\begin{thebibliography}{99}
+
+\bibitem{BHH19}
+M.~Beck, C.~Haase, A.~Higashitani, J.~Hofscheier, K.~Jochemko, L.~Katth\"an and M.~Micha\l ek.
+Smooth centrally symmetric polytopes in dimension~3 are IDP.
+\emph{Ann. Comb.}, 23:255--262, 2019. \doi{10.1007/s00026-019-00418-x}
+
+\bibitem{archive}
+D.~Bhattacharjee.
+Smooth lattice 3-polytopes with seven facets: paper, certificates and Lean formalization.
+\url{https://github.com/creelie/probable-octo-palm-tree}, 2026.
+
+\bibitem{BGT97}
+W.~Bruns, J.~Gubeladze and N.~V. Trung.
+Normal polytopes, triangulations, and Koszul algebras.
+\emph{J. Reine Angew. Math.}, 485:123--160, 1997. \doi{10.1515/crll.1997.485.123}
+
+\bibitem{CLS11}
+D.~A. Cox, J.~B. Little and H.~K. Schenck.
+\emph{Toric Varieties}.
+Graduate Studies in Mathematics 124. American Mathematical Society, Providence, RI, 2011. \doi{10.1090/gsm/124}
+
+\bibitem{Cur25}
+J.~Curtis.
+The integer decomposition property in smooth polytopes.
+\emph{S\'em. Lothar. Combin.}, 93B, Article~99, 2025 (Proceedings of FPSAC 2025). See also \arxiv{2509.02960}.
+
+\bibitem{CLL26}
+J.~Curtis, T.~Le and C.~Lowen.
+On smooth combinatorial products of simplices.
+\arxiv{2609.25181}, 2026.
+
+\bibitem{DRS10}
+J.~A. De~Loera, J.~Rambau and F.~Santos.
+\emph{Triangulations}.
+Algorithms and Computation in Mathematics 25. Springer, Berlin, 2010. \doi{10.1007/978-3-642-12971-1}
+
+\bibitem{Lean4}
+L.~de~Moura and S.~Ullrich.
+The Lean~4 theorem prover and programming language.
+In \emph{Automated Deduction -- CADE 28}, Lecture Notes in Comput. Sci. 12699, pages 625--635. Springer, 2021. \doi{10.1007/978-3-030-79876-5_37}
+
+\bibitem{EW91}
+G.~Ewald and U.~Wessels.
+On the ampleness of invertible sheaves in complete projective toric varieties.
+\emph{Results Math.}, 19:275--278, 1991. \doi{10.1007/BF03323286}
+
+\bibitem{FP05}
+O.~Fujino and S.~Payne.
+Smooth complete toric threefolds with no nontrivial nef line bundles.
+\emph{Proc. Japan Acad. Ser. A Math. Sci.}, 81:174--179, 2005. \doi{10.3792/pjaa.81.174}
+
+\bibitem{HNPS08}
+C.~Haase, B.~Nill, A.~Paffenholz and F.~Santos.
+Lattice points in Minkowski sums.
+\emph{Electron. J. Combin.}, 15:\#N11, 2008. \doi{10.37236/886}
+
+\bibitem{Kle88}
+P.~Kleinschmidt.
+A classification of toric varieties with few generators.
+\emph{Aequationes Math.}, 35:254--266, 1988. \doi{10.1007/BF01830946}
+
+\bibitem{mathlib}
+The mathlib Community.
+The Lean mathematical library.
+In \emph{Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020)}, pages 367--381. ACM, 2020. \doi{10.1145/3372885.3373824}
+
+\bibitem{Nag76}
+O.~Nagaya.
+Classification of 3-dimensional complete non-singular torus embeddings.
+Master's thesis, Nagoya University, 1976.
+
+\bibitem{Oda78}
+T.~Oda.
+\emph{Lectures on Torus Embeddings and Applications} (based on joint work with K.~Miyake).
+Tata Institute of Fundamental Research Lectures on Mathematics and Physics 58. Springer, Berlin, 1978.
+
+\bibitem{Oda08}
+T.~Oda.
+Problems on Minkowski sums of convex lattice polytopes.
+\arxiv{0812.1418}, 2008.
+
+\bibitem{Oga12}
+S.~Ogata.
+Projective normality of toric 3-folds with non-big adjoint hyperplane sections.
+\emph{Tohoku Math. J.}, 64:125--140, 2012. \doi{10.2748/tmj/1332767343}
+
+\bibitem{Oga14}
+S.~Ogata.
+Projective normality of toric 3-folds with non-big adjoint hyperplane sections,~II.
+\emph{Far East J. Math. Sci.}, 84:99--110, 2014. See also \arxiv{1310.6521}.
+
+\bibitem{Rob24}
+S.~Robins.
+Integer decomposition property of polytopes.
+\emph{Electron. J. Combin.}, 31(1):\#P1.1, 2024. \doi{10.37236/10582}
+
+\end{thebibliography}
+}
+
+\end{document}

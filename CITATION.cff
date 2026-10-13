@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below."
+title: "Smooth lattice 3-polytopes with seven facets have the integer decomposition property"
+type: software
+authors:
+  - family-names: Bhattacharjee
+    given-names: Deep
+    orcid: "https://orcid.org/0000-0003-0466-750X"
+    affiliation: "Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India"
+    email: d.bhattacharjee@erl-forschung.de
+version: 1.0.0
+date-released: 2026-10-12
+license: MIT
+repository-code: "https://github.com/creelie/probable-octo-palm-tree"
+keywords:
+  - Oda's conjecture
+  - integer decomposition property
+  - smooth lattice polytope
+  - toric variety
+  - projective normality
+  - Lean 4
+abstract: >-
+  A lattice polytope P has the integer decomposition property if, for every
+  positive integer k, every lattice point of kP is a sum of k lattice points
+  of P. Oda conjectured that every smooth lattice polytope has this property.
+  We prove the conjecture for smooth lattice polytopes of dimension three with
+  seven facets. Together with the known case of at most six facets, every
+  smooth lattice 3-polytope with at most seven facets has the integer
+  decomposition property. The proof combines three criteria on the normal fan,
+  based on slicing and projection, with the classification of smooth
+  projective toric threefolds of Picard number four; the finitely many
+  certificates are checked in Lean 4.
+references:
+  - type: article
+    title: "Integer decomposition property of polytopes"
+    authors:
+      - family-names: Robins
+        given-names: Sharon
+    journal: "The Electronic Journal of Combinatorics"
+    volume: 31
+    issue: 1
+    year: 2024
+    doi: 10.37236/10582
