@@ -81,6 +81,11 @@ classification (Proposition 9, from the classifications of Miyake-Oda-Nagaya
 and Kleinschmidt) are proved by hand in the paper; Lean checks the
 certificates.
 
+## Archive
+
+Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590);
+release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
+
 ## License
 
 MIT, see `LICENSE`.
