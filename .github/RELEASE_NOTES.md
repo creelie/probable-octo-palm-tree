@@ -5,6 +5,8 @@ Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar
 Email: d.bhattacharjee@erl-forschung.de, itsdeep@live.com  
 ORCID: [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X)
 
+**Archive.** Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590); release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
+
 **Theorem.** Every smooth lattice polytope in R^3 with seven facets has the integer decomposition property: for every k ≥ 1, every lattice point of kP is a sum of k lattice points of P. With the case of at most six facets (Robins 2024), every smooth lattice 3-polytope with at most seven facets has the property. This is the next case of Oda's conjecture in dimension three.
 
 | Step | Content |
