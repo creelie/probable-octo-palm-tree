@@ -1,7 +1,10 @@
 # Smooth lattice 3-polytopes with seven facets have the integer decomposition property
 
 Paper, certificates, verification programs and Lean 4 formalization by
-Deep Bhattacharjee.
+**Deep Bhattacharjee**, Formerly, Electro-Gravitational Space Propulsion
+Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
+(d.bhattacharjee@erl-forschung.de, itsdeep@live.com;
+ORCID [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X)).
 
 **Theorem.** Every smooth lattice polytope in R^3 with seven facets has the
 integer decomposition property: for every integer k ≥ 1, every lattice point
