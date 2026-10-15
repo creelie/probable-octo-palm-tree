@@ -21,8 +21,16 @@ facets (Robins, Electron. J. Combin. 31 (2024)), every smooth lattice
 3-polytope with at most seven facets has the property.
 
 Oda asked whether every smooth lattice polytope has the integer decomposition
-property (Oda's conjecture). In dimension three it is open; it was known for
-centrally symmetric polytopes, for at most six facets and for pseudo-prisms.
+property (Oda's conjecture). Before 2026 the three-dimensional case was known
+for centrally symmetric polytopes, for at most six facets and for
+pseudo-prisms. It is now settled in dimension three: M. Michałek posted an
+AI-generated proof on 25 September 2026
+(https://www.math.uni-konstanz.de/~michalek/oda_normality.pdf), and J. Curtis
+and G. Liu gave a shorter proof (arXiv:2610.17270, 12 October 2026). Both
+came before this work was released, so the theorem here is a special case of
+theirs. The proof here is different: it classifies the normal fans with seven
+rays and settles each family by a criterion on the fan, with every
+certificate checked by the Lean kernel.
 
 ## Method
 

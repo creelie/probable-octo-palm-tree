@@ -18,8 +18,13 @@ decomposition property of polytopes*, Electron. J. Combin. 31(1) (2024), #P1.1,
 whose theorem on smooth fans with at most n + 3 rays settles the case of at
 most six facets in dimension three, and C. Haase, B. Nill, A. Paffenholz and
 F. Santos, *Lattice points in Minkowski sums*, Electron. J. Combin. 15 (2008),
-#N11, whose Proposition 2.1 is used in the slicing criterion. The article settles the next case of Oda's conjecture
-in dimension three, smooth 3-polytopes with seven facets.
+#N11, whose Proposition 2.1 is used in the slicing criterion. The article
+proves the case of seven facets by a classification of the normal fans and
+criteria on them. The whole three-dimensional case was proved earlier by
+M. Michałek (an AI-generated preprint, 25 September 2026) and by J. Curtis and
+G. Liu (arXiv:2610.17270, 12 October 2026) through lattice width; the article
+cites both and presents its theorem as a special case proved by a different
+method. An editor may judge that this leaves too little that is new.
 
 MSC 2020: primary 52B20; secondary 14M25, 68V15.
 
