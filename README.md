@@ -1,10 +1,17 @@
 # Smooth lattice 3-polytopes with seven facets have the integer decomposition property
 
 Paper, certificates, verification programs and Lean 4 formalization by
-**Deep Bhattacharjee**, Formerly, Electro-Gravitational Space Propulsion
-Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
-(d.bhattacharjee@erl-forschung.de, itsdeep@live.com;
-ORCID [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X)).
+
+- **Deep Bhattacharjee** (corresponding author), Formerly, Electro-Gravitational
+  Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
+  (itsdeep@live.com, d.bhattacharjee@erl-forschung.de;
+  ORCID [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X));
+- **Ushashi Bhattacharya**, Formerly, National Taiwan University, Taipei
+  106319, Taiwan (rai.bhattacharya.in@gmail.com;
+  ORCID [0009-0002-2254-3914](https://orcid.org/0009-0002-2254-3914)).
+
+The paper: [preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf](preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf).
+Everything in one file: [MasterOdaConjectureSevenFacets_masterzipfinal2.zip](https://github.com/creelie/probable-octo-palm-tree/raw/main/MasterOdaConjectureSevenFacets_masterzipfinal2.zip).
 
 **Theorem.** Every smooth lattice polytope in R^3 with seven facets has the
 integer decomposition property: for every integer k ≥ 1, every lattice point
@@ -39,15 +46,19 @@ centrally symmetric polytopes, for at most six facets and for pseudo-prisms.
 
 | Path | Content |
 |---|---|
-| `paper/main.tex`, `paper/main.pdf` | the paper (Electronic Journal of Combinatorics style `paper/e-jc.sty`, 14 pages) |
-| `dist/` | the PDF, the LaTeX source zip, the arXiv tarball and `MasterOdaSevenFacetsZip.zip` with every file of the repository |
+| `paper/main.tex`, `paper/main.pdf` | the paper (Electronic Journal of Combinatorics style `paper/e-jc.sty`, 16 pages, two authors, MSC primary 52B20, secondary 14M25, 68V15) |
+| `paper/figures/`, `figures/` | the four schematic figures as PNG, and their TikZ sources with `figures/make_figures.sh` |
+| `preprintOdaConjectureSevenFacets/` | the paper as a PDF, the only file in the folder |
+| `dist/` | `OdaConjectureSevenFacets_final2.pdf`, the LaTeX source zip `OdaConjectureSevenFacets_final2-tex.zip` (figures as PNG) and the arXiv tarball |
+| `MasterOdaConjectureSevenFacets_masterzipfinal2.zip` | every file of the repository with `dist/` and the preprint folder |
 | `journal/JOURNAL.md` | target journal (The Electronic Journal of Combinatorics), format and AI policy |
 | `data/certificates.txt` | the certificate of each of the 625 families, one line per family |
 | `verification/python/` | `fans7.py` (the families and the three criteria as polynomial identities), `check_certificates.py` (the checker), `find_certificates.py` (the search that produced the table), `paper_table.py` (Appendix A of the paper from the table), `idp_sample.py` (a direct test of 2P ∩ Z^3 = (P ∩ Z^3) + (P ∩ Z^3) on random polytopes, not part of the proof) |
 | `verification/julia/`, `verification/c/`, `verification/cpp/` | independent checkers: Julia with exact polynomials, C and C++ by evaluation on the grids {0,1,2,3}^k and {-2,-1,1,3}^k |
 | `verification/lean/` | Lean 4 + Mathlib project; `Oda.certificate` proves, in the kernel, that every family has a certificate for every value of its parameters |
 | `verification/shell/run_all.sh` | runs every check |
-| `build_paper.sh` | builds the paper and the files in `dist/` |
+| `build_paper.sh` | builds the paper, the files in `dist/`, the preprint folder and the master zip |
+| `.github/workflows/release.yml` | runs every check and publishes a release (Zenodo mints its DOI) |
 
 ## Running the checks
 
@@ -84,7 +95,9 @@ certificates.
 ## Archive
 
 Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590);
-release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
+release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591);
+release v1.0.1: [10.5281/zenodo.23329690](https://doi.org/10.5281/zenodo.23329690).
+Release v2.0.0, with both authors and the figures, gets its DOI when it is published.
 
 ## License
 

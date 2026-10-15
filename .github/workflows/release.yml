@@ -1,0 +1,63 @@
+name: release
+
+# Run by hand from the Actions tab (or the API) after the PR is merged:
+# it runs every check, tags the chosen commit, publishes a GitHub release with the files in
+# dist/ and the notes in .github/RELEASE_NOTES.md, and Zenodo archives the
+# release and mints a DOI if the repository is switched on at
+# https://zenodo.org/account/settings/github/.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag, e.g. v2.0.0"
+        required: true
+        default: "v2.0.0"
+      target:
+        description: "Branch or commit to tag"
+        required: true
+        default: "main"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: "1.10"
+      - name: Install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Python, C, C++ and Julia checks, the paper table, and the Lean kernel check
+        run: verification/shell/run_all.sh
+      - name: Check the release files
+        run: |
+          for f in dist/OdaConjectureSevenFacets_final2.pdf \
+                   dist/OdaConjectureSevenFacets_final2-tex.zip \
+                   dist/OdaConjectureSevenFacets_final2-arxiv.tar.gz \
+                   preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf \
+                   MasterOdaConjectureSevenFacets_masterzipfinal2.zip; do
+            test -s "$f" || { echo "missing $f"; exit 1; }
+          done
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          TARGET: ${{ inputs.target }}
+        run: |
+          gh release create "$TAG" dist/* \
+            --target "$TARGET" \
+            --title "$TAG: Smooth lattice 3-polytopes with seven facets have the integer decomposition property" \
+            --notes-file .github/RELEASE_NOTES.md
