@@ -1,0 +1,48 @@
+\documentclass[border=4pt]{standalone}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz,tikz-3dplot}
+\usetikzlibrary{arrows.meta,calc}
+\begin{document}
+\tdplotsetmaincoords{57}{132}
+\begin{tikzpicture}[tdplot_main_coords,line join=round,line cap=round,scale=0.8]
+% ---------- the shadow Q = pi(P), drawn below the polytope ----------
+\def\h{-4.6}
+\fill[blue!10] (2,0,\h)--(4,0,\h)--(4,2,\h)--(2,4,\h)--(0,4,\h)--(0,2,\h)--cycle;
+\fill[teal!22] (0,0,\h)--(2,0,\h)--(0,2,\h)--cycle;
+\fill[orange!25] (4,2,\h)--(4,4,\h)--(2,4,\h)--cycle;
+\draw[blue!60!black,line width=0.8pt] (2,0,\h)--(0,2,\h);
+\draw[orange!80!black,line width=0.8pt] (4,2,\h)--(2,4,\h);
+\draw[line width=0.7pt] (0,0,\h)--(4,0,\h)--(4,4,\h)--(0,4,\h)--cycle;
+\foreach \x in {0,...,4}{\foreach \y in {0,...,4}{\fill[black!70] (\x,\y,\h) circle (1.1pt);}}
+\node[font=\scriptsize] at (0.6,0.6,\h) {$D_2\cap U_1$};
+\node[font=\scriptsize] at (3.35,3.35,\h) {$D_1\cap U_2$};
+\node[font=\scriptsize,fill=blue!10,inner sep=1pt,rounded corners=1pt] at (2.45,1.55,\h) {$D_1\cap U_1$};
+\node[font=\small,anchor=east] at (4,0,\h) {$Q=\pi(P)\ $};
+% ---------- the polytope ----------
+\coordinate (A1) at (2,0,0); \coordinate (A2) at (0,2,0); \coordinate (A3) at (0,0,2);
+\coordinate (X) at (4,0,0); \coordinate (Y) at (0,4,0); \coordinate (XY) at (4,4,0);
+\coordinate (XZ) at (4,0,4); \coordinate (YZ) at (0,4,4); \coordinate (Z) at (0,0,4);
+\coordinate (B1) at (4,4,2); \coordinate (B2) at (4,2,4); \coordinate (B3) at (2,4,4);
+% projection lines from the vertices
+\foreach \p/\q in {4/0,0/4,4/2,2/4}{\draw[gray!55,densely dotted,line width=0.45pt] (\p,\q,0)--(\p,\q,\h);}
+\draw[gray!55,densely dotted,line width=0.45pt] (4,4,2)--(4,4,\h) (2,0,0)--(2,0,\h) (0,2,0)--(0,2,\h);
+% a fibre over a lattice point y of Q
+\draw[red!70!black,line width=1pt] (1,3,0)--(1,3,4);
+
+\fill[red!70!black] (1,3,0) circle (1.3pt) (1,3,4) circle (1.3pt) (1,3,\h) circle (1.5pt);
+\draw[red!50,densely dotted] (1,3,0)--(1,3,\h);
+\node[font=\scriptsize,anchor=north] at (1,3,\h) {$y$};
+% hidden edges
+\draw[gray!60,dashed,line width=0.5pt] (A1)--(A2)--(A3)--cycle (A1)--(X) (A2)--(Y) (A3)--(Z);
+% faces
+\fill[blue!7,fill opacity=0.62] (X)--(XY)--(B1)--(B2)--(XZ)--cycle;
+\fill[blue!15,fill opacity=0.62] (Y)--(XY)--(B1)--(B3)--(YZ)--cycle;
+\fill[orange!12,fill opacity=0.62] (Z)--(XZ)--(B2)--(B3)--(YZ)--cycle;
+\fill[orange!35] (B1)--(B2)--(B3)--cycle;
+\draw[line width=0.85pt] (X)--(XY)--(Y) (X)--(XZ) (Y)--(YZ) (XY)--(B1)
+     (Z)--(XZ)--(B2)--(B3)--(YZ)--(Z) (B1)--(B2) (B1)--(B3);
+\node[red!50!black,font=\scriptsize,anchor=south] at (1,3,4) {$g(y)$};
+\node[red!50!black,font=\scriptsize,anchor=north east] at (1,3,0.1) {$f(y)$};
+\draw[-{Stealth[length=5pt]},line width=0.7pt] (5.2,-1.2,-2.2)--(5.2,-1.2,2.8) node[above,font=\small]{$m$};
+\end{tikzpicture}
+\end{document}

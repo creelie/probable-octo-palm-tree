@@ -6,8 +6,8 @@
 | Publisher | The Electronic Journal of Combinatorics (independent, diamond open access: no fees for authors or readers) |
 | ISSN | 1077-8926 |
 | Homepage | https://www.combinatorics.org |
-| Submission | Web system at https://www.combinatorics.org/ojs/index.php/eljc/about/submissions (register, then "Make a submission"); the initial submission is the PDF `dist/oda-seven-facets.pdf` |
-| Source files | Only at the final version: the paper must use the journal's style file `e-jc.sty` in the manner of `ejc-sample.tex`, with all LaTeX, including the bibliography, in one file, uploaded as supplementary files. `paper/main.tex` already does this, and `dist/oda-seven-facets-tex.zip` holds `main.tex` with `e-jc.sty` |
+| Submission | Web system at https://www.combinatorics.org/ojs/index.php/eljc/about/submissions (register, then "Make a submission"); the initial submission is the PDF `dist/OdaConjectureSevenFacets_final2.pdf` |
+| Source files | Only at the final version: the paper must use the journal's style file `e-jc.sty` in the manner of `ejc-sample.tex`, with all LaTeX, including the bibliography, in one file, uploaded as supplementary files. `paper/main.tex` already does this, and `dist/OdaConjectureSevenFacets_final2-tex.zip` holds `main.tex` with `e-jc.sty` and the figures as PNG |
 
 ## Scope fit
 
@@ -21,21 +21,23 @@ F. Santos, *Lattice points in Minkowski sums*, Electron. J. Combin. 15 (2008),
 #N11, whose Proposition 2.1 is used in the slicing criterion. The article settles the next case of Oda's conjecture
 in dimension three, smooth 3-polytopes with seven facets.
 
-MSC 2020: primary 52B20; secondary 14M25.
+MSC 2020: primary 52B20; secondary 14M25, 68V15.
 
 ## Length and format
 
-- 14 pages in `e-jc.sty`, built with no overfull or underfull boxes, as the
+- 16 pages in `e-jc.sty`, with four schematic figures,, built with no overfull or underfull boxes, as the
   final-version rules require; the journal sets no page limit.
 - `main.tex` begins with `\documentclass[12pt]{article}` and
   `\usepackage[amsmath]{e-jc}`, uses only ASCII characters, and sets the
   `\dateline`, `\MSC` and `\Copyright` fields of the sample (CC BY 4.0). The
   submission and acceptance dates in `\dateline` are `TBD`; fill them in when
   the editors give them.
-- Title without footnotes; the affiliation and e-mail addresses are in the
-  single `\authortext` line, as the sample asks for one author.
-- The abstract has 111 words, states the background and the result, and has
-  no citations, equation numbers or undefined notation, as the guidelines ask.
+- Title without footnotes. Two authors, Deep Bhattacharjee (corresponding
+  author) and Ushashi Bhattacharya, marked with `\authornote{1}` and
+  `\authornote{2}`, with the affiliations, e-mail addresses and ORCID iDs in
+  the matching `\authortext` lines, as the sample does for several authors.
+- The abstract has 45 words, states the result, and has no citations,
+  equation numbers or undefined notation, as the guidelines ask.
   At submission the system asks for an HTML copy of the abstract: paste the
   abstract with `$...$` for the mathematics and no `\emph`.
 - The references are in the source (`thebibliography`) with `\doi` and
@@ -43,17 +45,22 @@ MSC 2020: primary 52B20; secondary 14M25.
 - Supplementary material: the certificate table is printed in Appendix A, and
   the programs and the Lean project are cited through the Zenodo record of
   the repository in the section "Data availability". The master zip
-  `dist/MasterOdaSevenFacetsZip.zip` can be uploaded as a supplementary file.
+  `MasterOdaConjectureSevenFacets_masterzipfinal2.zip` can be uploaded as a
+  supplementary file.
+- Declarations at the end: "Data availability" (who computed what, the
+  Zenodo DOI of the Lean formalization and the link to the PDF in
+  `preprintOdaConjectureSevenFacets/`), "Acknowledgements" (use of AI),
+  "Competing interests: None" and "Funding: None".
 
 ## Submission checklist of the journal
 
-At submission the author checks off these items:
+At submission the authors check off these items:
 
 - the paper is not published or under consideration elsewhere;
-- it is written in the author's own words, with due credit to all techniques
+- it is written in the authors' own words, with due credit to all techniques
   and results taken from other sources;
-- the author agrees to the final typesetting with `e-jc.sty`;
-- the author has read the journal's Artificial Intelligence Policy and
+- the authors agree to the final typesetting with `e-jc.sty`;
+- the authors have read the journal's Artificial Intelligence Policy and
   adhered to it;
 - no author has submitted another paper to E-JC within the last 3 calendar
   months, including papers that were rejected. Check this before submitting.
@@ -67,9 +74,10 @@ At submission the author checks off these items:
   publication. (https://www.combinatorics.org/ojs/index.php/eljc/about/submissions,
   read on 2026-10-12.)
 - The proofs of this paper were developed with Claude Code (Anthropic), and
-  the paper says so in its section "Use of AI tools". Under the policy above,
-  the author has to go through every proof, rewrite it in his own words where
-  needed and be able to vouch for every step before submitting.
+  the paper says so in its sections "Data availability" and
+  "Acknowledgements". Under the policy above,
+  the authors have to go through every proof, rewrite it in their own words
+  where needed and be able to vouch for every step before submitting.
 - What is checked by machine: the certificate of every one of the 625
   families (Proposition 10) is checked by the Lean 4 kernel, with no
   `native_decide` and only the axioms `propext`, `Classical.choice` and

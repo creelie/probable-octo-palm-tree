@@ -1,13 +1,6 @@
-**Smooth lattice 3-polytopes with seven facets have the integer decomposition property**
+**Smooth lattice 3-polytopes with seven facets have the integer decomposition property**, by Deep Bhattacharjee (corresponding author) and Ushashi Bhattacharya.
 
-**Deep Bhattacharjee**  
-Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India  
-Email: d.bhattacharjee@erl-forschung.de, itsdeep@live.com  
-ORCID: [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X)
-
-**Archive.** Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590); release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
-
-**Theorem.** Every smooth lattice polytope in R^3 with seven facets has the integer decomposition property: for every k ≥ 1, every lattice point of kP is a sum of k lattice points of P. With the case of at most six facets (Robins 2024), every smooth lattice 3-polytope with at most seven facets has the property. This is the next case of Oda's conjecture in dimension three.
+**Theorem.** Every smooth lattice polytope in R^3 with seven facets has the integer decomposition property: for every k ≥ 1, every lattice point of kP is a sum of k lattice points of P. With the case of at most six facets (Robins 2024), Oda's conjecture holds for every smooth lattice 3-polytope with at most seven facets. The conjecture itself, for all smooth polytopes, stays open.
 
 | Step | Content |
 |---|---|
@@ -16,12 +9,15 @@ ORCID: [0000-0003-0466-750X](https://orcid.org/0000-0003-0466-750X)
 | Proposition 9 | the smooth complete projective fans with seven rays form 625 families with rays affine in integer parameters |
 | Proposition 10, Appendix A | a certificate for every family, valid for all parameter values |
 
-The criteria and the classification are proved by hand. The certificates of all 625 families are checked by four independent programs (Python and Julia with exact polynomials, C and C++ by evaluation on two grids) and by Lean 4 with Mathlib: `Oda.certificate` is proved with `decide +kernel` and soundness theorems, without `native_decide`, using only the axioms propext, Classical.choice and Quot.sound.
+The reduction, the criteria and the classification are proved by hand in the paper. The certificates of all 625 families are checked by Lean 4 with Mathlib: the kernel evaluates the decision procedures (no `native_decide`), soundness theorems turn them into the hypotheses of Propositions 6 to 8 at every parameter value, and the proof uses only the axioms propext, Classical.choice and Quot.sound. Four independent programs repeat the check (Python and Julia with exact polynomials, C and C++ by evaluation on two grids).
+
+Version 2.0.0 adds the second author, four schematic figures, the declarations of the journal and the preprint folder.
 
 Files:
-- `dist/oda-seven-facets.pdf`: the paper
-- `dist/oda-seven-facets-tex.zip`: LaTeX source (`main.tex` and the journal style `e-jc.sty`)
-- `dist/oda-seven-facets-arxiv.tar.gz`: the same source, ready for arXiv
-- `dist/MasterOdaSevenFacetsZip.zip`: every file of the repository with the three files above
+- `OdaConjectureSevenFacets_final2.pdf`: the paper
+- `OdaConjectureSevenFacets_final2-tex.zip`: LaTeX source (`main.tex`, the journal style `e-jc.sty`, figures as PNG)
+- `OdaConjectureSevenFacets_final2-arxiv.tar.gz`: the same source, ready for arXiv
 
-Run `verification/shell/run_all.sh` to repeat the checks and `build_paper.sh` to rebuild the files above.
+The repository also holds `preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf` and `MasterOdaConjectureSevenFacets_masterzipfinal2.zip`, which holds every file of the repository. Run `verification/shell/run_all.sh` to repeat the checks and `build_paper.sh` to rebuild the files above.
+
+Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590).

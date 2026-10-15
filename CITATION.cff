@@ -7,17 +7,25 @@ authors:
     given-names: Deep
     orcid: "https://orcid.org/0000-0003-0466-750X"
     affiliation: "Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India"
-    email: d.bhattacharjee@erl-forschung.de
-version: 1.0.1
+    email: itsdeep@live.com
+  - family-names: Bhattacharya
+    given-names: Ushashi
+    orcid: "https://orcid.org/0009-0002-2254-3914"
+    affiliation: "Formerly, National Taiwan University, Taipei 106319, Taiwan"
+    email: rai.bhattacharya.in@gmail.com
+version: 2.0.0
 doi: 10.5281/zenodo.23329590
 identifiers:
   - type: doi
     value: 10.5281/zenodo.23329590
     description: All versions on Zenodo
   - type: doi
+    value: 10.5281/zenodo.23329690
+    description: Release v1.0.1
+  - type: doi
     value: 10.5281/zenodo.23329591
     description: Release v1.0.0
-date-released: 2026-10-13
+date-released: 2026-10-15
 license: MIT
 repository-code: "https://github.com/creelie/probable-octo-palm-tree"
 keywords:
@@ -28,16 +36,11 @@ keywords:
   - projective normality
   - Lean 4
 abstract: >-
-  A lattice polytope P has the integer decomposition property if, for every
-  positive integer k, every lattice point of kP is a sum of k lattice points
-  of P. Oda conjectured that every smooth lattice polytope has this property.
-  We prove the conjecture for smooth lattice polytopes of dimension three with
-  seven facets. Together with the known case of at most six facets, every
-  smooth lattice 3-polytope with at most seven facets has the integer
-  decomposition property. The proof combines three criteria on the normal fan,
-  based on slicing and projection, with the classification of smooth
-  projective toric threefolds of Picard number four; the finitely many
-  certificates are checked in Lean 4.
+  We prove Oda's conjecture unconditionally for smooth lattice polytopes in
+  dimension three with seven facets: every such polytope has the integer
+  decomposition property. With the known case of at most six facets, the
+  conjecture holds for every smooth lattice 3-polytope with at most seven
+  facets.
 references:
   - type: article
     title: "Integer decomposition property of polytopes"

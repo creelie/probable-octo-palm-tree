@@ -1,15 +1,24 @@
 \documentclass[12pt]{article}
 \usepackage[amsmath]{e-jc}
 
+\usepackage{graphicx}
+
 \dateline{TBD}{TBD}{TBD}
-\MSC{52B20, 14M25}
-\Copyright{The author. Released under the CC BY license (International 4.0).}
+\MSC{\raggedright Primary 52B20; Secondary 14M25, 68V15}
+\Copyright{The authors. Released under the CC BY license (International 4.0).}
+
+\newcommand{\zenodoID}{10.5281/zenodo.23329590}
+\newcommand{\preprintURL}{https://github.com/creelie/probable-octo-palm-tree/blob/main/preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf}
 
 \title{Smooth lattice 3-polytopes with seven facets\\ have the integer decomposition property}
 
-\author{Deep Bhattacharjee}
-\authortext{}{Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
-(\email{d.bhattacharjee@erl-forschung.de}, \email{itsdeep@live.com}). ORCID 0000-0003-0466-750X.}
+\author{Deep Bhattacharjee\authornote{1}
+\qquad
+Ushashi Bhattacharya\authornote{2}}
+\authortext{1}{Formerly, Electro-Gravitational Space Propulsion Laboratory (EGSPL), Bhubaneswar, Odisha 751030, India
+(\email{itsdeep@live.com}, \email{d.bhattacharjee@erl-forschung.de}). ORCID 0000-0003-0466-750X. Corresponding author.}
+\authortext{2}{Formerly, National Taiwan University, Taipei 106319, Taiwan
+(\email{rai.bhattacharya.in@gmail.com}). ORCID 0009-0002-2254-3914.}
 
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -23,7 +32,7 @@
 \maketitle
 
 \begin{abstract}
-A lattice polytope $P$ has the integer decomposition property if, for every positive integer $k$, every lattice point of $kP$ is a sum of $k$ lattice points of $P$. Oda conjectured that every smooth lattice polytope has this property. We prove the conjecture for smooth lattice polytopes of dimension three with seven facets. Together with the known case of at most six facets, every smooth lattice $3$-polytope with at most seven facets has the integer decomposition property. The proof combines three criteria on the normal fan, based on slicing and projection, with the classification of smooth projective toric threefolds of Picard number four; the finitely many certificates are checked in Lean~4.
+We prove Oda's conjecture unconditionally for smooth lattice polytopes in dimension three with seven facets: every such polytope has the integer decomposition property. With the known case of at most six facets, the conjecture holds for every smooth lattice $3$-polytope with at most seven facets.
 \end{abstract}
 
 \section{Introduction}
@@ -40,7 +49,14 @@ Every smooth lattice polytope in $\R^3$ with seven facets has the integer decomp
 Every smooth lattice polytope in $\R^3$ with at most seven facets has the integer decomposition property.
 \end{corollary}
 
-The proof has four parts. By Lemma~\ref{lem:reduction}, a lattice $3$-polytope $P$ has the IDP as soon as $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$. Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} give three conditions on the normal fan of $P$, each of which implies this equality: a slicing condition and two projection conditions. Proposition~\ref{prop:classification} lists the smooth complete fans with seven rays that are normal fans of polytopes, up to $\GL_3(\Z)$: they form $625$ families whose rays are affine functions of integer parameters. Proposition~\ref{prop:certificates} gives for each family a vector that satisfies one of the three conditions for all values of the parameters. For $25$ families this is proved in the text; for the remaining $600$ families it is a finite computation with polynomials in the parameters, carried out by the Lean~4 kernel and by four independent programs. The conditions depend only on the normal fan, so the theorem holds for every polytope with a given normal fan at once.
+The proof has four parts, shown in Figure~\ref{fig:roadmap}. By Lemma~\ref{lem:reduction}, a lattice $3$-polytope $P$ has the IDP as soon as $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$. Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} give three conditions on the normal fan of $P$, each of which implies this equality: a slicing condition and two projection conditions. Proposition~\ref{prop:classification} lists the smooth complete fans with seven rays that are normal fans of polytopes, up to $\GL_3(\Z)$: they form $625$ families whose rays are affine functions of integer parameters. Proposition~\ref{prop:certificates} gives for each family a vector that satisfies one of the three conditions for all values of the parameters. For $25$ families this is proved in the text; for the remaining $600$ families it is a finite computation with polynomials in the parameters, which is formalized in Lean~4 and checked by its kernel for all $625$ families. The conditions depend only on the normal fan, so the theorem holds for every polytope with a given normal fan at once.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_roadmap.png}
+\caption{The structure of the proof. Lemma~\ref{lem:reduction} reduces the IDP to the second dilate, Propositions~\ref{prop:slice} to~\ref{prop:proj2} turn a certificate of the normal fan into the equality for the second dilate, and Propositions~\ref{prop:classification} and~\ref{prop:certificates} supply a certificate for every smooth projective fan with seven rays.}
+\label{fig:roadmap}
+\end{figure}
 
 \section{Reduction to the second dilate}
 
@@ -117,11 +133,27 @@ If $A$ or $B$ is a point, it is a lattice point of $A\cap B$. If $A$ and $B$ are
 If $A$ is a segment, then by Step~3 $t=t_\pm$, $A=\Phi_i\cap\Phi_j$ and $\bar\rho_j=-\bar\rho_i$. Suppose first that $B$ is a segment too. Then $t+1$ is also an end of $[t_-,t_+]$, $P_{t+1}=\Phi_k\cap\Phi_l$ and $\bar\rho_l=-\bar\rho_k$. If $A$ and $B$ were collinear, an end of the segment $A\cap B$ would be an end of $A$ or of $B$, a lattice point. So $A$ and $B$ meet in a single point of their relative interiors, and Lemma~\ref{lem:plane}(a) gives $|\det(\bar\rho_i,\bar\rho_k)|\ge2$. As $\bar\rho_j=-\bar\rho_i$ and $\bar\rho_l=-\bar\rho_k$, the same holds for the pairs $(i,l)$, $(j,k)$, $(j,l)$, and $i,k,j,l$ is a cycle of length four in $G_u$. Suppose now that $B$ is a polygon. An end $q$ of $A\cap B$ is not an end of $A$ and not a vertex of $B$, so it lies in $\relint A$ and in the relative interior of an edge of $B$ with some label $k$. If $A$ were contained in the line of this edge, the ends of $A\cap B$ would be lattice points. So $A$ crosses this line at $q$ and enters the interior of $B$ there; hence $A\cap B$ is a segment $[q,q']$ with $q\ne q'$, and $q'$ lies on an edge of $B$ with a label $l\ne k$. Lemma~\ref{lem:plane}(a) gives $i\sim k$ and $i\sim l$, and $\bar\rho_j=-\bar\rho_i$ gives $j\sim k$ and $j\sim l$: the cycle $i,k,j,l$. The case where $B$ is a segment and $A$ a polygon is the same with $A$ and $B$ exchanged. Each case contradicts (S2).
 \end{proof}
 
+Figure~\ref{fig:slice} shows Steps~2 and~5 of the proof on a small example.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_slice.png}
+\caption{The slicing criterion. (a) The slices $P_t$ and $P_{t+1}$ of a smooth polytope at consecutive integer heights; the section at height $t+\frac12$ is their average. (b) Two lattice polygons $A$ and $B$ whose intersection contains no lattice point: it is a quadrilateral whose sides lie alternately on edges of $A$ and of $B$. (c) The labels of the four sides form a cycle of length four in $G_u$, which condition (S2) excludes.}
+\label{fig:slice}
+\end{figure}
+
 \subsection*{Projection}
 
 For Propositions~\ref{prop:proj} and~\ref{prop:proj2} let $P$ be a lattice $3$-polytope, $m\in\Z^3$ primitive, and $h_i=\inn{\rho_i}{m}$ the \emph{height} of $\rho_i$. Choose $b_1,b_2\in\Z^3$ such that $b_1,b_2,m$ is a basis of $\Z^3$, write points as $x=y_1b_1+y_2b_2+sm$ with $y=(y_1,y_2)$, and put $\rho_i'=(\inn{b_1}{\rho_i},\inn{b_2}{\rho_i})$. Then $\inn{x}{\rho_i}=\inn{y}{\rho_i'}+sh_i$, and $x\in\Z^3$ if and only if $y\in\Z^2$ and $s\in\Z$. Facets with $h_i>0$ are \emph{lower}, those with $h_i<0$ \emph{upper}; as $P$ is bounded there are both. Let
 \[ f_i(y)=\frac{c_i-\inn{y}{\rho_i'}}{h_i},\qquad f=\max_{h_i>0}f_i,\qquad g=\min_{h_i<0}f_i, \]
-let $\pi(x)=y$, and let $Q=\pi(P)$. Then $P=\{(y,s):y\in Q,\ f(y)\le s\le g(y)\}$. For a lower facet $\Phi_i$ the map $\pi$ is injective on $\Phi_i$, so $D_i=\pi(\Phi_i)$ is a polygon whose vertices are the images of the vertices of $\Phi_i$, hence lie in $\Z^2$; moreover $D_i=\{y\in Q:f(y)=f_i(y)\}$, and the polygons $D_i$ cover $Q$, since $(y,f(y))\in P$ for $y\in Q$. The same holds for the upper facets with $g$ in place of $f$; we write $U_j=\pi(\Phi_j)$ for them.
+let $\pi(x)=y$, and let $Q=\pi(P)$. Then $P=\{(y,s):y\in Q,\ f(y)\le s\le g(y)\}$. For a lower facet $\Phi_i$ the map $\pi$ is injective on $\Phi_i$, so $D_i=\pi(\Phi_i)$ is a polygon whose vertices are the images of the vertices of $\Phi_i$, hence lie in $\Z^2$; moreover $D_i=\{y\in Q:f(y)=f_i(y)\}$, and the polygons $D_i$ cover $Q$, since $(y,f(y))\in P$ for $y\in Q$. The same holds for the upper facets with $g$ in place of $f$; we write $U_j=\pi(\Phi_j)$ for them. Figure~\ref{fig:proj} shows the cells $D_i\cap U_j$ for a truncated cube.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.62\textwidth]{figures/fig_proj.png}
+\caption{The projection along $m$. Over each point $y$ of the shadow $Q=\pi(P)$ the polytope is the segment from $f(y)$ to $g(y)$, and $Q$ is cut into the cells $D_i\cap U_j$ on which $f=f_i$ and $g=f_j$ are affine.}
+\label{fig:proj}
+\end{figure}
 
 \begin{proposition}\label{prop:proj}
 Let $P$ be a lattice $3$-polytope with normal fan $\Sigma$ and let $m\in\Z^3\setminus\{0\}$ satisfy:
@@ -192,6 +224,15 @@ If $X$ is not minimal, $\Sigma$ is a star subdivision of a smooth complete fan $
 The fans $Z_a$ and $W_{a,b}$ have $6$ maximal cones and $9$ two-dimensional cones, and each of their star subdivisions has $8$ maximal cones and $12$ two-dimensional cones; this gives $2\cdot15\cdot20=600$ families in~(i) and $8+12=20$ in~(ii).
 \end{proof}
 
+Figure~\ref{fig:blowup} shows the two kinds of star subdivision and how the four kinds of families arise.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figures/fig_blowup.png}
+\caption{(a) The star subdivision $p_{ijk}$ of a maximal cone, the blowup of a torus-fixed point. (b) The star subdivision $c_{ij}$ of a two-dimensional cone, the blowup of a torus-invariant curve. (c) The families of Proposition~\ref{prop:classification}: the fans with five rays are $Z_a$ and $W_{a,b}$, each has $15$ star subdivisions with six rays, and each of these has $20$ further star subdivisions; together with the subdivisions of $F_{a,p}$ and the minimal fans $G^j_{a,p}$ and $C_a$ this gives $600+20+4+1=625$ families.}
+\label{fig:blowup}
+\end{figure}
+
 \section{Certificates}\label{sec:certificates}
 
 \begin{proposition}\label{prop:certificates}
@@ -223,12 +264,9 @@ Lemma~\ref{lem:bundles}(b) with $q=4$ gives the certificate $S(0,0,-1)$ for the 
 
 \paragraph{Verification of all families.} In each family the rays are vectors whose coordinates are integer affine functions of the parameters. Every quantity in the hypotheses of Propositions~\ref{prop:slice}--\ref{prop:proj2} is then a polynomial in the parameters: the coordinates of $u$ in the basis of a maximal cone (the cone determinants are the constants $\pm1$), the determinants $\det(u,\rho_i,\rho_j)$, the heights $\inn{\rho_i}{m}$ and the cross products in~(P2). A certificate is accepted only if each quantity that must lie in a finite set is a constant polynomial whose value lies in that set. For (S2), a pair $i,j$ is counted as adjacent unless $\det(u,\rho_i,\rho_j)$ is a constant of absolute value at most $1$; the graph obtained contains $G_u$ for every value of the parameters, and it is required to contain no cycle of length four. An accepted certificate therefore satisfies the hypotheses for all values of the parameters.
 
-The check is carried out in five independent ways on the table of Appendix~\ref{app:table}, stored with one line per family in the file \texttt{data/certificates.txt}. Each program builds the $625$ families of Proposition~\ref{prop:classification} from the five base fans, checks that every fan is smooth and complete, that every family has exactly one line in the table, and that every certificate is accepted.
-\begin{itemize}
-\item A Lean~4 project \cite{Lean4} using Mathlib \cite{mathlib} proves the theorem \texttt{Oda.certificate} stated in Appendix~\ref{app:lean}. The hypotheses of Propositions~\ref{prop:slice}--\ref{prop:proj2} are formalized as propositions about integer vectors; Boolean checkers compute on the polynomial coefficients of the rays, and soundness theorems prove that a checker returning \texttt{true} gives the hypothesis at every value of the parameters. The checkers are evaluated by the kernel (\texttt{decide +kernel}); the proof uses no \texttt{native\_decide}, no \texttt{sorry} and no additional axioms, and \texttt{\#print axioms} reports only \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound}.
-\item A Python program and a Julia program compute with exact polynomials in the parameters.
-\item A C program and a C++ program use that every quantity above has total degree at most $3$, hence degree at most $3$ in each parameter, so it equals a constant $c$ if and only if it takes the value $c$ at every point of a grid with four values per parameter; they use the grids $\{0,1,2,3\}$ and $\{-2,-1,1,3\}$.
-\end{itemize}
+The check is formalized in Lean~4 \cite{Lean4} with Mathlib \cite{mathlib}. The formalization builds the $625$ families of Proposition~\ref{prop:classification} from the five base fans by the star subdivisions of Section~\ref{sec:classification}, states the hypotheses of Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} as propositions about integer vectors, and proves that every fan of every family, at every value of the parameters, has a certificate (Appendix~\ref{app:lean}). Decision procedures compute on the polynomial coefficients of the rays as described above, and soundness theorems show that a procedure that accepts gives the hypothesis at every value of the parameters. The procedures are evaluated by the kernel itself, without compiled code; the proof has no unproved step and depends only on the axioms of Lean's logic, namely propositional extensionality, choice and the soundness of quotients.
+
+Four independent programs repeat the check on the same table. Two of them compute with exact polynomials in the parameters. The other two use that every quantity above has total degree at most $3$, hence degree at most $3$ in each parameter, so it equals a constant $c$ if and only if it takes the value $c$ at every point of a grid with four values per parameter; they use the grids $\{0,1,2,3\}$ and $\{-2,-1,1,3\}$. Each of the five checks also verifies that every fan of the families is smooth and complete and that every family has exactly one certificate in the table.
 
 \section{Proof of Theorem~\ref{thm:main} and Corollary~\ref{cor:main}}
 
@@ -246,10 +284,10 @@ The criteria of Section~\ref{sec:criteria} do not settle every smooth $3$-polyto
 
 \section{The certificates}\label{app:table}
 
-For the families (i) we list the two subdivisions in the order in which they are made; the new rays are $\rho_5$ and $\rho_6$. For each family the certificate is $S(u)$, $P(m)$ or $Q(m)$ in the coordinates of Section~\ref{sec:classification}. This block is generated from \texttt{data/certificates.txt} by \texttt{verification/python/paper\_table.py}, which also checks that it agrees with the table.
+For the families (i) we list the two subdivisions in the order in which they are made; the new rays are $\rho_5$ and $\rho_6$. For each family the certificate is $S(u)$, $P(m)$ or $Q(m)$ in the coordinates of Section~\ref{sec:classification}. The list below is printed from the same table that the formal proof and the four programs check.
 
 {\raggedright
-% BEGIN TABLE (generated by verification/python/paper_table.py)
+% BEGIN TABLE
 \paragraph{Double blowups of $Z_a$ (300 pairs).} The certificate is $S(0,0,-1)$ for 264 pairs; the other pairs are:
 \begin{itemize}
 \item $P(-1,0,0)$ (20 pairs): $p_{013}\,c_{15}$, $p_{014}\,c_{15}$, $p_{023}\,p_{025}$, $p_{023}\,c_{05}$, $p_{023}\,c_{25}$, $p_{024}\,p_{025}$, $p_{024}\,c_{05}$, $p_{024}\,c_{25}$, $p_{123}\,c_{15}$, $p_{124}\,c_{15}$, $c_{03}\,p_{025}$, $c_{04}\,p_{025}$, $c_{13}\,p_{015}$, $c_{13}\,p_{125}$, $c_{13}\,c_{15}$, $c_{14}\,p_{015}$, $c_{14}\,p_{125}$, $c_{14}\,c_{15}$, $c_{23}\,p_{025}$, $c_{24}\,p_{025}$.
@@ -270,24 +308,29 @@ For the families (i) we list the two subdivisions in the order in which they are
 % END TABLE
 }
 
-\section{The Lean statement}\label{app:lean}
+\section{The formal statement}\label{app:lean}
 
-The Lean project defines a fan with integer rays as a list of rays and a list of maximal cones, given by triples of ray indices, and a family as the same data with rays whose coordinates are integer affine functions of a parameter vector $p$; \texttt{X.ev p} is the fan of the family $X$ at $p$, \texttt{B.centers} is the list of cones of dimension $2$ and $3$ of $B$, and \texttt{B.blow c} is the star subdivision at $c$, with the new ray as the last ray. The families \texttt{famZ}, \texttt{famW}, \texttt{famF}, \texttt{famG j} and \texttt{famC} are $Z_a$, $W_{a,b}$, $F_{a,p}$, $G^j_{a,p}$ and $C_a$. The predicate \texttt{HasCert F} states that some $v\in\Z^3$ satisfies \texttt{SCond F v}, \texttt{PCond F v} or \texttt{P2Cond F v}, which are the hypotheses of Propositions~\ref{prop:slice}, \ref{prop:proj} and~\ref{prop:proj2} word for word, with (S2) stated as: for all ray indices $i,j,k,l$ with $i\ne k$ and $j\ne l$, the four pairs $(i,j),(j,k),(k,l),(l,i)$ are not all adjacent. The theorem \texttt{Oda.certificate} is the conjunction of the following five statements, written with the Lean symbols in mathematical notation:
-{\raggedright
+In the formalization a fan with integer rays is a list of rays together with a list of maximal cones, each given by three ray indices, and a family is the same data with rays whose coordinates are integer affine functions of a parameter vector $p$. For a family $X$ and a parameter vector $p$ let $X(p)$ be its fan at $p$; for a fan or family $B$ let $\mathcal{C}(B)$ be its list of cones of dimension $2$ and $3$, and let $B_c$ be the star subdivision of $B$ at $c\in\mathcal{C}(B)$, with the new ray as the last ray. A fan $F$ \emph{has a certificate} if some $v\in\Z^3$ satisfies the hypotheses of Proposition~\ref{prop:slice}, \ref{prop:proj} or~\ref{prop:proj2} for $F$; condition (S2) is stated as: for all ray indices $i,j,k,l$ with $i\ne k$ and $j\ne l$, the four pairs $(i,j)$, $(j,k)$, $(k,l)$, $(l,i)$ are not all adjacent in $G_u$. The theorem proved in Lean is the conjunction of the following five statements.
 \begin{enumerate}
-\item $\forall c_1\in\texttt{famZ.centers}$, $\forall c_2\in(\texttt{famZ.blow}\ c_1)\texttt{.centers}$, $\forall p$: \ $\texttt{HasCert}\,(((\texttt{famZ.blow}\ c_1)\texttt{.blow}\ c_2)\texttt{.ev}\ p)$;
-\item $\forall c_1\in\texttt{famW.centers}$, $\forall c_2\in(\texttt{famW.blow}\ c_1)\texttt{.centers}$, $\forall p$: \ $\texttt{HasCert}\,(((\texttt{famW.blow}\ c_1)\texttt{.blow}\ c_2)\texttt{.ev}\ p)$;
-\item $\forall c\in\texttt{famF.centers}$, $\forall p$: \ $\texttt{HasCert}\,((\texttt{famF.blow}\ c)\texttt{.ev}\ p)$;
-\item $\forall j<4$, $\forall p$: \ $\texttt{HasCert}\,((\texttt{famG}\ j)\texttt{.ev}\ p)$;
-\item $\forall p$: \ $\texttt{HasCert}\,(\texttt{famC.ev}\ p)$.
+\item For every $c_1\in\mathcal{C}(Z)$, every $c_2\in\mathcal{C}(Z_{c_1})$ and every $p$, the fan $(Z_{c_1})_{c_2}(p)$ has a certificate.
+\item For every $c_1\in\mathcal{C}(W)$, every $c_2\in\mathcal{C}(W_{c_1})$ and every $p$, the fan $(W_{c_1})_{c_2}(p)$ has a certificate.
+\item For every $c\in\mathcal{C}(F)$ and every $p$, the fan $F_c(p)$ has a certificate.
+\item For every $j<4$ and every $p$, the fan $G^j(p)$ has a certificate.
+\item For every $p$, the fan $C(p)$ has a certificate.
 \end{enumerate}
-The script \texttt{verification/lean/check.sh} regenerates the data files of the project from the table and compares them with the committed files, rejects \texttt{sorry}, \texttt{admit}, \texttt{native\_decide} and new axioms, builds the project and checks the output of \texttt{\#print axioms Oda.certificate}. The build takes about two minutes on four cores.\par}
+Here $Z$, $W$, $F$, $G^j$ and $C$ are the families $Z_a$, $W_{a,b}$, $F_{a,p}$, $G^j_{a,p}$ and $C_a$ of Section~\ref{sec:classification}. The data of the formal proof are generated from the table of Appendix~\ref{app:table}, and the build of the proof compares them with that table.
 
 \section*{Data availability}
-{\raggedright The certificate table, the programs, the Lean project and the scripts that run them are available at \url{https://github.com/creelie/probable-octo-palm-tree} \cite{archive}, archived on Zenodo under \doi{10.5281/zenodo.23329590} (all versions; release v1.0.0 is \doi{10.5281/zenodo.23329591}). The script \texttt{verification/shell/run\_all.sh} runs the five checks, the consistency check of Appendix~\ref{app:table} and a direct test of $2P\cap\Z^3=(P\cap\Z^3)+(P\cap\Z^3)$ on random polytopes from the families; the test is not part of the proof.\par}
+{\raggedright Deep Bhattacharjee computed the Lean formalization and the Julia, C, C++, shell and Python computations with the help of AI assistance (Claude, Anthropic). The Lean formalization of the proof in this paper is archived at Zenodo \cite{archive}, \doi{\zenodoID}. The paper is available at \url{\preprintURL}.\par}
 
-\section*{Use of AI tools}
-The author used the generative AI tool Claude Code (Anthropic) to develop the proofs, to write the verification programs and the Lean formalization, and to draft this article. The author reviewed the content and takes full responsibility for it.
+\section*{Acknowledgements}
+The authors used the generative AI tool Claude (Anthropic), through Claude Code, to assist with the proofs, the Lean formalization, the computations and the preparation of this article. The authors reviewed and edited the content and take full responsibility for it.
+
+\section*{Competing interests}
+None.
+
+\section*{Funding}
+None.
 
 {\raggedright
 \begin{thebibliography}{99}
@@ -298,9 +341,9 @@ Smooth centrally symmetric polytopes in dimension~3 are IDP.
 \emph{Ann. Comb.}, 23:255--262, 2019. \doi{10.1007/s00026-019-00418-x}
 
 \bibitem{archive}
-D.~Bhattacharjee.
+D.~Bhattacharjee and U.~Bhattacharya.
 Smooth lattice 3-polytopes with seven facets: paper, certificates and Lean formalization.
-Zenodo, 2026. \doi{10.5281/zenodo.23329590}; \url{https://github.com/creelie/probable-octo-palm-tree}
+Zenodo, 2026. \doi{\zenodoID}
 
 \bibitem{BGT97}
 W.~Bruns, J.~Gubeladze and N.~V. Trung.
