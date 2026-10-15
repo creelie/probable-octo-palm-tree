@@ -12,6 +12,7 @@ Paper, certificates, verification programs and Lean 4 formalization by
 
 The paper: [preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf](preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf).
 Everything in one file: [MasterOdaConjectureSevenFacets_masterzipfinal2.zip](https://github.com/creelie/probable-octo-palm-tree/raw/main/MasterOdaConjectureSevenFacets_masterzipfinal2.zip).
+Lean formalization and programs on Zenodo: [doi:10.5281/zenodo.23387693](https://doi.org/10.5281/zenodo.23387693) (release v2.0.1; all versions: [doi:10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590)).
 
 **Theorem.** Every smooth lattice polytope in R^3 with seven facets has the
 integer decomposition property: for every integer k ≥ 1, every lattice point
@@ -20,8 +21,16 @@ facets (Robins, Electron. J. Combin. 31 (2024)), every smooth lattice
 3-polytope with at most seven facets has the property.
 
 Oda asked whether every smooth lattice polytope has the integer decomposition
-property (Oda's conjecture). In dimension three it is open; it was known for
-centrally symmetric polytopes, for at most six facets and for pseudo-prisms.
+property (Oda's conjecture). Before 2026 the three-dimensional case was known
+for centrally symmetric polytopes, for at most six facets and for
+pseudo-prisms. It is now settled in dimension three: M. Michałek posted an
+AI-generated proof on 25 September 2026
+(https://www.math.uni-konstanz.de/~michalek/oda_normality.pdf), and J. Curtis
+and G. Liu gave a shorter proof (arXiv:2610.17270, 12 October 2026). Both
+came before this work was released, so the theorem here is a special case of
+theirs. The proof here is different: it classifies the normal fans with seven
+rays and settles each family by a criterion on the fan, with every
+certificate checked by the Lean kernel.
 
 ## Method
 
@@ -95,9 +104,10 @@ certificates.
 ## Archive
 
 Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590);
-release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591);
-release v1.0.1: [10.5281/zenodo.23329690](https://doi.org/10.5281/zenodo.23329690).
-Release v2.0.0, with both authors and the figures, gets its DOI when it is published.
+release v2.0.1 (version 2.0.0 of the paper, with both authors, the figures and
+the preprint folder): [10.5281/zenodo.23387693](https://doi.org/10.5281/zenodo.23387693);
+release v1.0.1: [10.5281/zenodo.23329690](https://doi.org/10.5281/zenodo.23329690);
+release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
 
 ## License
 

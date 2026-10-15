@@ -20,6 +20,9 @@ identifiers:
     value: 10.5281/zenodo.23329590
     description: All versions on Zenodo
   - type: doi
+    value: 10.5281/zenodo.23387693
+    description: Release v2.0.1
+  - type: doi
     value: 10.5281/zenodo.23329690
     description: Release v1.0.1
   - type: doi
@@ -36,11 +39,11 @@ keywords:
   - projective normality
   - Lean 4
 abstract: >-
-  We prove Oda's conjecture unconditionally for smooth lattice polytopes in
-  dimension three with seven facets: every such polytope has the integer
-  decomposition property. With the known case of at most six facets, the
-  conjecture holds for every smooth lattice 3-polytope with at most seven
-  facets.
+  We prove that every smooth lattice polytope in dimension three with seven
+  facets has the integer decomposition property. The proof classifies the
+  normal fans and settles each by one of three criteria; it is independent of
+  the recent proofs of Oda's conjecture in dimension three, which use lattice
+  width.
 references:
   - type: article
     title: "Integer decomposition property of polytopes"
