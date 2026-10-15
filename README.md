@@ -12,6 +12,7 @@ Paper, certificates, verification programs and Lean 4 formalization by
 
 The paper: [preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf](preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf).
 Everything in one file: [MasterOdaConjectureSevenFacets_masterzipfinal2.zip](https://github.com/creelie/probable-octo-palm-tree/raw/main/MasterOdaConjectureSevenFacets_masterzipfinal2.zip).
+Lean formalization and programs on Zenodo: [doi:10.5281/zenodo.23387693](https://doi.org/10.5281/zenodo.23387693) (release v2.0.1; all versions: [doi:10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590)).
 
 **Theorem.** Every smooth lattice polytope in R^3 with seven facets has the
 integer decomposition property: for every integer k ≥ 1, every lattice point
@@ -95,9 +96,10 @@ certificates.
 ## Archive
 
 Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590);
-release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591);
-release v1.0.1: [10.5281/zenodo.23329690](https://doi.org/10.5281/zenodo.23329690).
-Release v2.0.0, with both authors and the figures, gets its DOI when it is published.
+release v2.0.1 (version 2.0.0 of the paper, with both authors, the figures and
+the preprint folder): [10.5281/zenodo.23387693](https://doi.org/10.5281/zenodo.23387693);
+release v1.0.1: [10.5281/zenodo.23329690](https://doi.org/10.5281/zenodo.23329690);
+release v1.0.0: [10.5281/zenodo.23329591](https://doi.org/10.5281/zenodo.23329591).
 
 ## License
 

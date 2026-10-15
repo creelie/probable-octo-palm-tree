@@ -20,4 +20,4 @@ Files:
 
 The repository also holds `preprintOdaConjectureSevenFacets/OdaConjectureSevenFacets.pdf` and `MasterOdaConjectureSevenFacets_masterzipfinal2.zip`, which holds every file of the repository. Run `verification/shell/run_all.sh` to repeat the checks and `build_paper.sh` to rebuild the files above.
 
-Zenodo, all versions: [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590).
+Zenodo: release v2.0.1 [10.5281/zenodo.23387693](https://doi.org/10.5281/zenodo.23387693); all versions [10.5281/zenodo.23329590](https://doi.org/10.5281/zenodo.23329590).
